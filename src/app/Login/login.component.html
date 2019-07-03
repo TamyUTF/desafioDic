@@ -1,0 +1,27 @@
+<mat-card class = "login">
+  <mat-card-header>
+    <mat-card-title>Bem-vindo!</mat-card-title>
+    <mat-card-subtitle>Por favor, se identifique.</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <form class = "form"  [formGroup] = "form" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <input  matInput
+                placeholder="E-mail"
+                floatLabel = "always"
+                formControlName = "email"/>
+      </mat-form-field>
+      <mat-form-field>
+          <input  matInput
+                  placeholder="Senha"
+                  floatLabel = "always"
+                  formControlName = "password"/>
+      </mat-form-field>
+      <button mat-stroked-button 
+              class = "submit"
+              type="submit">
+        ENTRAR
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

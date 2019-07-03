@@ -1,0 +1,41 @@
+<div class = "full-sidenav">
+  <mat-toolbar class = "toolbar">
+    <button mat-icon-button [matMenuTriggerFor] ='menu' *ngIf='user'>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu class = 'menu' #menu="matMenu" >
+      <button mat-menu-item *ngIf="user&&user.isAdmin" (click)="registerUser()">Registrar usuário</button>
+      <button mat-menu-item (click)="openOverview()">Overview</button>
+      <button mat-menu-item [routerLink]="['departments']">Estrutura Sistêmica</button>
+    </mat-menu>
+    <img class = "qualiex" 
+          src = "../assets/images/ForlogicLogo.png"
+          [routerLink]="['dics']">
+    <div class = "subtitle">
+      <p>
+        <span>Dics</span><br>
+        Desafio Individual do Colaborador
+      </p>
+    </div>
+    <ng-container *ngIf="isLogged; else logged; then notLogged"></ng-container>
+    <ng-template #logged>
+      <div class = "login-toolbar button" *ngIf='user' (click)="userMenu(user)">
+        <button mat-icon-button (click)="logout()">
+          <mat-icon>power_settings_new</mat-icon>
+        </button>
+        <img class = "user-avatar" src="../../../assets/images/userIcon.png">
+        <span class = "logged">
+          {{user.name}}
+        </span>
+      </div>    
+    </ng-template> 
+    <ng-template #notLogged>
+      <div class = "login-toolbar" *ngIf='!user'>
+      <mat-icon>power_settings_new</mat-icon>
+      <p class = "not-logged">Você não está logado.<br>
+      </p>    
+      </div>
+    </ng-template>
+  </mat-toolbar>
+<router-outlet></router-outlet>
+</div>

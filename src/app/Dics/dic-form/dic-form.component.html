@@ -1,0 +1,30 @@
+<mat-toolbar class = "header">
+  <h1>Cadastro do Dic</h1>
+  <button mat-icon-button (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-dialog-content class = "mat-dialog">
+  <div class = form>
+    <form [formGroup] = "form" (ngSubmit) = "onSubmit()">
+      <mat-form-field>
+        <mat-label>Período (trimestre)</mat-label>
+        <input  matInput
+                floatLabel = "always"
+                formControlName = "idPeriod"
+                placeholder = "ex: 2/2019">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+          <mat-label>Descrição</mat-label>
+        <textarea matInput 
+                  floatLabel="always"
+                  formControlName = "description"
+                  type = "text">
+        </textarea>
+      </mat-form-field>
+      <button mat-stroked-button type="submit">CADASTRAR</button>
+    </form>
+    </div>
+</mat-dialog-content>

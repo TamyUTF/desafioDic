@@ -1,0 +1,77 @@
+<mat-toolbar class = header>
+  <h1 *ngIf="data.type == 'department'">Cadastro de Empreendimento</h1>
+  <h1 *ngIf="data.type == 'process'">Cadastro de Processo</h1>
+  <button mat-icon-button (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-dialog-content class = "mat-dialog">
+                              <!--FORMULÁRIO PARA EMPREENDIMENTO-->
+  <div class = "form">
+    <form *ngIf = "data.type == 'department'" [formGroup] = "form" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <input matInput
+                placeholder = "Nome do empreendimento"
+                floatLabel = "always"
+                formControlName = "name">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Líder do empreendimento</mat-label>
+        <mat-select formControlName = "leader">
+          <mat-option *ngFor = "let user of userService.users$ | async"
+                      [value] = "user">
+            {{user.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Colaboradores</mat-label>
+        <mat-select formControlName = "involveds" multiple>
+          <mat-option *ngFor = "let user of userService.users$ | async"
+                      [value] = "user">
+          {{user.name}}          
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-stroked-button class = "submit-button" type="submit">CADASTRAR</button>
+    </form>
+
+                                <!--FORMULÁRIO PARA PROCESSO-->
+    <form  *ngIf = "data.type == 'process'" [formGroup] = "form" (ngSubmit) = "onSubmit()">
+      <mat-form-field>
+        <input  matInput
+                placeholder="Nome do processo"
+                floatLabel = "always"
+                formControlName = "name">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Pertence ao empreendimento</mat-label>
+        <mat-select formControlName = "department">
+          <mat-option *ngFor = "let department of departmentService.departments$ | async"
+                      [value] = "department.id">
+            {{department.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Líder do processo</mat-label>
+        <mat-select formControlName = "leader">
+          <mat-option *ngFor = "let user of userService.users$ | async" [value]="user">
+            {{user.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Colaboradores</mat-label>
+        <mat-select formControlName = "involveds" multiple>
+          <mat-option *ngFor = "let user of userService.users$ | async"
+                      [value] = "user">
+          {{user.name}}          
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-stroked-button class = "submit-button" type="submit">CADASTRAR</button>
+    </form>
+  </div>
+</mat-dialog-content>

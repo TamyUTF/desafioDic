@@ -1,0 +1,83 @@
+<mat-toolbar class = "header">
+  <h1>Cadastro de usuário</h1>
+  <button mat-icon-button (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+  
+<mat-dialog-content *ngIf = "user" class = "mat-dialog">
+  <div class = "form">
+    <form [formGroup] = "form" (ngSubmit) = "onSubmit()">
+      <mat-form-field>
+        <input  matInput
+                placeholder = "Nome"
+                floatLabel = "always"
+                formControlName = "name">
+      </mat-form-field>
+      <mat-form-field>
+        <input  matInput
+                placeholder = "Senha"
+                floatLabel = "always"
+                formControlName = "password">
+      </mat-form-field>
+      <mat-form-field>
+        <input  matInput
+                placeholder = "Confirme sua senha"
+                floatLabel = "always"
+                formControlName = "password2">
+      </mat-form-field>
+      <mat-form-field>
+        <input  matInput
+                placeholder = "Avatar"
+                floatLabel = "always"
+                formControlName = "avatar">
+      </mat-form-field>
+      <mat-form-field>
+        <input  matInput
+                placeholder = "E-mail"
+                floatLabel = "always"
+                formControlName = "email">
+      </mat-form-field>
+      <section>
+        <button mat-icon-button
+                *ngIf = "user.isAdmin"
+                class = "add-button" 
+                type="button" 
+                (click)="openForm('department')">
+          <mat-icon inline=true>add</mat-icon>
+        </button>
+        <mat-form-field>
+          <mat-label>Empreendimento</mat-label>
+          <mat-select formControlName = "department">
+            <mat-option *ngFor = "let department of departmentService.departments$ | async" 
+                        [value]="department.id">
+              {{department.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>         
+        <mat-checkbox formControlName = "isLeaderDepartment">Lider do empreendimento</mat-checkbox>
+      </section>
+      <section>
+        <button mat-icon-button
+                *ngIf = "user.isAdmin || user.isLeaderProcess "
+                class = "add-button" 
+                type = "button" 
+                (click)="openForm('process')">
+          <mat-icon inline=true>add</mat-icon>
+        </button>
+        <mat-form-field>
+          <mat-label>Processo</mat-label>
+          <mat-select formControlName = "process">
+            <mat-option *ngFor = "let process of processService.processes$ | async" 
+                        [value]="process.id">
+              {{process.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-checkbox formControlName = "isLeaderProcess">Líder do processo</mat-checkbox>
+      </section>
+      <button mat-stroked-button class = "submit-button" type="submit">CADASTRAR</button>
+    </form>
+  </div>
+
+</mat-dialog-content>

@@ -1,0 +1,54 @@
+<div class = "department-list">
+  <mat-accordion [multi]='true'>
+    <mat-expansion-panel *ngFor = "let department of departmentService.departments$ | async" 
+                          class = "department-panel"
+                          [disabled]="clickButton"
+                          (click)="clickButton = false">
+      <mat-expansion-panel-header [collapsedHeight]="'65px'" [expandedHeight]="'65px'">
+        <button mat-icon-button [matMenuTriggerFor]="menu" (click)="clickButton = true">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu = "matMenu">
+          <button mat-menu-item (click)="view(department)">
+            <span>Detalhes</span>
+          </button>
+          <button mat-menu-item  (click)="edit(department)">
+            <span>Editar</span>
+          </button>
+          <button mat-menu-item (click)="delete(department.id)">
+            <span>Exluir</span>
+          </button>
+        </mat-menu>
+        <mat-panel-title>{{department.name}}</mat-panel-title>
+        <mat-panel-description>
+          <img src="../../../assets/images/userIcon.png">
+          Líder
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-list>
+        <h3 mat-subheader>Processos</h3>
+        <mat-divider></mat-divider>
+        <div class = 'process' *ngFor = "let process of processService.processes$ | async">
+          <mat-list-item *ngIf="process.department.id === department.id;">
+            <span>{{process.name}}</span>            
+            <button mat-icon-button [matMenuTriggerFor]="menuProcess">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menuProcess = "matMenu">
+                <button mat-menu-item (click)="view(process)">
+                  <span>Detalhes</span>
+                </button>
+                <button mat-menu-item (click)="edit(process)">
+                  <span>Editar</span>
+                </button>
+                <button mat-menu-item (click)="delete(process.id)">
+                  <span>Exluir</span>
+                </button>
+              </mat-menu>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </div>
+      </mat-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

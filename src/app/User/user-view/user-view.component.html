@@ -1,0 +1,131 @@
+<mat-toolbar class = "header">
+  <h1>Informações do usuário</h1>
+  <button mat-icon-button (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-dialog-content class = "mat-dialog">
+  <mat-tab-group>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>perm_identity</mat-icon>
+        Meu perfil
+      </ng-template>
+
+      <div class = "user-div">
+        <div class = "user-view"  *ngIf="!edit">
+          <div class = "user-avatar user-info">
+            <img src = "{{user.avatar}}">
+          </div>
+          <div class = "user-review">
+            <div class = "user-name user-info">
+              <span>
+                Nome:&nbsp;<p>{{user.name}}</p>
+              </span>
+            </div>
+            <div class = "user-email user-info">
+              <span>
+                E-mail:&nbsp;<p>{{user.email}}</p>
+              </span>
+            </div>
+            <div class = "user-department user-info"> 
+              <span>
+                Empreendimento:&nbsp;<p>{{user.department.name}}</p>
+              </span>
+            </div>
+            <div class = "user-process user-info">
+              <ng-container *ngIf="user.process.name; then process; else notProcess"></ng-container>
+              <ng-template #process>
+                <span>
+                  Processo:&nbsp;<p>{{user.process.name}}</p>
+                </span>
+              </ng-template>
+              <ng-template #notProcess>
+                <span>
+                  Processo:&nbsp;<p>Nenhum</p>
+                </span>
+              </ng-template>
+            </div>
+            <div class = "settings user-info">
+              <button *ngIf = "!edit" mat-button (click)="editUser()">
+                <mat-icon>create</mat-icon>
+                Editar
+              </button>
+            </div>
+          </div>
+        </div>
+        
+      <div class = "form" *ngIf="edit">
+        <div class = "buttons">
+          <button mat-icon-button (click)="edit = false">
+            <mat-icon>navigate_before</mat-icon>
+          </button>
+          <button mat-icon-button type="submit">
+            <mat-icon >done</mat-icon>
+          </button>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class = "user-data">
+            <mat-form-field>
+              <input  matInput
+                      floatLabel = "always"
+                      placeholder = "Nome"
+                      formControlName = "name">
+            </mat-form-field>
+            <mat-form-field>
+              <input  matInput
+                      floatLabel = "always"
+                      placeholder = "E-mail"
+                      formControlName = "email">
+            </mat-form-field>
+            <mat-form-field>
+              <input   matInput
+                      formControlName = "avatar"
+                      placeholder="Avatar"
+                      floatLabel = "always"
+                      > {{user.avatar}}
+            </mat-form-field>
+          </div>
+
+          <div class = "user-data">
+            <mat-form-field>
+            <mat-label>Empreendimento</mat-label>
+            <mat-select formControlName = "department">
+              <mat-option *ngFor = "let department of departmentService.departments$ | async" 
+                          [value]="department.id">
+                {{user.department.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Processo</mat-label>
+            <mat-select formControlName = "process">
+              <mat-option *ngFor = "let process of processService.processes$ | async" 
+                          [value]="process.id">
+                {{user.process.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          </div>
+        </form>
+      </div>
+    </div>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>chrome_reader_mode</mat-icon>
+        Meus Dics
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>description</mat-icon>
+        Relatório
+      </ng-template>
+    </mat-tab>
+
+  </mat-tab-group >
+</mat-dialog-content>

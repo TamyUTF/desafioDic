@@ -1,0 +1,90 @@
+<mat-toolbar class = "header">
+  <h1>Informações do Dic</h1>
+  <button mat-icon-button (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-dialog-content class = "mat-dialog">
+  
+  <mat-tab-group *ngIf = "dic">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon></mat-icon>
+        Visualizar
+      </ng-template>
+      <div class = "dic-view">
+        <div class ="dic-user dic-info">
+          <span>
+            Colaborador:&nbsp;<p>{{dic.user.name}}</p>
+          </span>
+        </div>
+        <div class ="dic-department dic-info">
+          <span>
+            Empreendimento:&nbsp;<p>{{dic.user.department.name}}</p>
+          </span>
+        </div>
+        <div class ="dic-process dic-info">
+          <span>
+            Processo:&nbsp;<p>{{dic.user.process.name}}</p>
+          </span>
+        </div>
+        <div class = "dic-description dic-info">
+          <span>
+            Dic:&nbsp;<p>{{dic.description}}</p>
+          </span>
+        </div>
+        <div class ="dic-startDate dic-info">
+          <span>
+            Data de definição:&nbsp;<p>{{dic.startDate | date: 'dd/MM/yyyy'}}</p>
+          </span>
+        </div>
+        <ng-container class ="dic-endDate dic-info"
+                      *ngIf = "dic.finishedDate > dic.startDate; then finishedDate ; else notFinished">
+        </ng-container>
+        <ng-template #finishedDate>
+          <div class = "dic-info">
+            <span>
+              Data de conclusão:&nbsp;<p>{{dic.finishedDate | date: 'dd/MM/yyyy'}}</p>
+            </span>
+          </div>
+        </ng-template>
+ 
+        <ng-template #notFinished>
+        <div class = "dic-info">
+          <span>Data de conclusão:&nbsp;<p>Ainda não foi concluído</p></span>
+        </div>
+        </ng-template>
+      </div>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon></mat-icon>
+        Histórico
+      </ng-template>
+      conteudo 1
+    </mat-tab>
+
+    <mat-tab [disabled] = "!(dic.user.id == userId)">
+      <ng-template mat-tab-label>
+        <mat-icon></mat-icon>
+        Editar
+      </ng-template>
+      <div class = form>
+        <form [formGroup] = "form" (ngSubmit) = "onSubmit()">        
+          <mat-form-field appearance="outline">
+            <mat-label>Descrição</mat-label>
+            <textarea  matInput 
+                      formControlName = "description"
+                      floatLabel="always"
+                      type = "text">
+              {{dic.description}}
+            </textarea>
+          </mat-form-field>
+          <button mat-stroked-button type="submit">EDITAR</button>
+        </form>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>

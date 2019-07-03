@@ -1,0 +1,29 @@
+<mat-toolbar class = "header">
+  <h1>Informações do empreendimento</h1>
+  <button mat-icon-button (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-dialog-content class = "mat-dialog">
+  <mat-tab-group>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>assignment</mat-icon>
+        Resumo
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>people</mat-icon>
+        Colaboradores
+      </ng-template>
+      <div class="involveds-list">
+        <div class="involved">
+          
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+</mat-dialog-content>

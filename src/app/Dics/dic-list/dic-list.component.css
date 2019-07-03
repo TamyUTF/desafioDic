@@ -1,0 +1,91 @@
+
+.filter {
+    background-color: #ffffff;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    padding: 5px;
+    height: 70px;
+    box-shadow: 1px 1px 2px #d6d6d6;
+}
+.filter mat-form-field {
+    margin: 0px 5px;
+    font-size: 11pt;
+}
+
+.filter .select-box {
+    width: 300px;
+}
+
+.filter .search-input {
+    width: 40%;
+}
+
+.search-input {
+    align-items: center;
+    justify-content: center;
+}
+
+.button-add {
+    background-color: rgb(61, 150, 223);
+    position: absolute;
+    top: 26px;
+    right: 15px;
+}
+
+.dic-list {
+    position: relative;
+    display: flex;
+}
+
+.dic-list .status-card {
+    width: 455.33%;
+    height: 100%;
+    margin: 20px 10px 10px 10px;
+}
+.status-card {
+    padding: 0px 0px 10px 0px;
+}
+
+.status-header {
+    color: #fff;
+    font-weight: 600; 
+    font-size: 18pt;
+    text-align: center;
+    margin: 0;
+    justify-content: center;
+    box-shadow: 1px 1px 2px #d6d6d6;
+}
+
+.status-todo {
+    background-color: #fe6863;
+}
+
+.status-doing {
+    background-color: #febb63;   
+}
+.status-done {
+    background-color: #75fe63;   
+}
+
+.dic-card {
+    min-width: 330px;
+    max-width: 350px;
+    box-shadow: 3px 3px 3px #c8c8c8;
+    border: 1px solid #d6d6d6;
+    margin: 10px auto;
+    position: relative;
+    cursor: pointer;
+}
+
+.dic-card mat-card-header {
+    align-items: center;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.dic-card mat-card-content {
+    flex-wrap: wrap;
+    word-wrap: break-word;
+}

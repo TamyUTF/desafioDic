@@ -1,0 +1,35 @@
+.login {
+    width: 400px;
+    height: 380px;
+    margin: 20px auto;
+}
+
+.login mat-card-header {
+    justify-content: center;
+    
+}
+
+.login mat-card-title {
+    margin: 10px auto;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.login button {
+    color: rgba(61, 150, 223);
+    font-weight: 600;
+    border: 1px solid rgba(61, 150, 223);
+}
+
+.form {
+    display: grid;
+}
+
+.form span {
+    display: flex;
+}
+
+.form a {
+    cursor: pointer;
+    text-decoration: underline;
+}

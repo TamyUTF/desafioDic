@@ -1,0 +1,55 @@
+.mat-dialog {
+    margin: 0px;
+    margin-bottom: 10px;
+    padding: 0px;
+}
+
+form {
+    display: grid;
+}
+
+form button {
+    color: #00a800;
+    font-weight: 600;
+    border: 1px solid #00a800;
+}
+
+.header {
+    margin:0;
+    background-color: #e2e2e2;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    color: #292929;
+    border-bottom: 3px solid rgb(61, 150, 223);
+    box-shadow: 1px 1px 2px #d6d6d6; 
+}
+
+.header h1 {
+    width: 100%;
+    font-weight: 700;
+}
+
+.div-view {
+    overflow: auto;
+}
+.dic-info {
+    margin: 10px 0px  0px 10px;
+}
+
+.dic-info span {
+    display: flex;
+    align-items: baseline;
+    font-weight: bold;
+    color: #383838;
+}
+
+.dic-info span p {
+    font-weight: normal;
+    color: #000;
+    margin: 0px;
+}
+
+.form {
+    padding: 10px;
+}
