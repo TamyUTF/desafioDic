@@ -40,7 +40,8 @@ import {MatDividerModule} from '@angular/material/divider';
         MatExpansionModule,
         MatListModule,
         MatDividerModule
-    ]
+    ],
+    declarations: []
 })
 
 export class MaterialModule { }

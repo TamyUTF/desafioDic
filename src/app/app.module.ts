@@ -23,6 +23,7 @@ import { FormDepartmentProcessComponent } from './shared/form-department-process
 import { DepartmentComponent } from './Department/department/department.component';
 import { ProcessViewComponent } from './Process/process-view/process-view.component';
 import { PeriodFormComponent } from './Period/period-form/period-form.component';
+import { DialogueConfirmComponent } from './shared/dialogue-confirm/dialogue-confirm.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { PeriodFormComponent } from './Period/period-form/period-form.component'
     FormDepartmentProcessComponent,
     DepartmentComponent,
     ProcessViewComponent,
-    PeriodFormComponent
+    PeriodFormComponent,
+    DialogueConfirmComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +65,9 @@ import { PeriodFormComponent } from './Period/period-form/period-form.component'
   entryComponents: [
     UserViewComponent,
     UserFormComponent,
-    FormDepartmentProcessComponent
+    FormDepartmentProcessComponent,
+    DepartmentComponent,
+    DialogueConfirmComponent
   ]
 })
 export class AppModule { }

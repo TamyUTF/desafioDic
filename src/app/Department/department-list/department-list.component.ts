@@ -10,6 +10,8 @@ import { UserService } from './../../User/Shared/user.service';
 import { ProcessService } from 'src/app/Process/Shared/process.service';
 import { DepartmentComponent } from '../department/department.component';
 import { Subscription } from 'rxjs';
+import { DialogueConfirmComponent } from 'src/app/shared/dialogue-confirm/dialogue-confirm.component';
+import { Util } from 'src/app/shared/util';
 
 @Component({
   selector: 'app-department-list',
@@ -23,7 +25,8 @@ export class DepartmentListComponent implements OnInit, OnDestroy {
               private processService: ProcessService,
               private userService: UserService,
               private userEventService: UserEventService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private snackbar: Util) {
     this.departmentService.list();
     this.processService.list();
     this.userService.list();
@@ -39,16 +42,32 @@ export class DepartmentListComponent implements OnInit, OnDestroy {
       this.subs = this.userEventService.userEvent.subscribe(res => this.user = res);
     }
   }
+
   view(departmentView) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.direction = 'ltr';
-    dialogConfig.width = '700px';
+    dialogConfig.width = '850px';
     dialogConfig.minHeight = '300px';
     dialogConfig.data = {
       user: this.user,
       department: departmentView
     };
     this.modal.open(DepartmentComponent, dialogConfig);
+  }
+
+  delete(id) {
+    const dialogRef = this.modal.open(DialogueConfirmComponent, {});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'true') {
+        this.departmentService.delete(id).subscribe(
+          res => {
+            this.snackbar.openSnackBar('Departamento excluído com sucesso.', 'Ok!');
+            this.departmentService.list();
+          },
+          error => console.error(error)
+        );
+      }
+    });
   }
 
   ngOnInit() {

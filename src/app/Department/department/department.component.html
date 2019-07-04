@@ -12,6 +12,61 @@
         <mat-icon>assignment</mat-icon>
         Resumo
       </ng-template>
+      <div class="department-review" *ngIf = "dics$">
+        <mat-accordion [multi]='true'>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Dics definindo</mat-panel-title>
+              <mat-panel-description>{{toDo.length}} Dics</mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-list>
+              <mat-list-item *ngFor="let dic of  toDo ">
+                <span>Dic: <p>{{dic.description}}</p></span>
+                <div class="user-info">
+                  {{dic.user.name}}
+                  <img src="{{dic.user.avatar}}">
+                </div>
+              </mat-list-item>
+            </mat-list>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Dics definidos</mat-panel-title>
+              <mat-panel-description>{{doing.length}} Dics</mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-list>
+              <mat-list-item *ngFor="let dic of  doing ">
+                <span>Dic: <p>{{dic.description}}</p></span>
+                <div class="user-info">
+                  {{dic.user.name}}
+                  <img src="{{dic.user.avatar}}">
+                </div>
+              </mat-list-item>
+            </mat-list>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>Dics concluídos</mat-panel-title>
+              <mat-panel-description>{{done.length}} Dics</mat-panel-description>
+            </mat-expansion-panel-header>
+            <mat-list>
+              <mat-list-item *ngFor="let dic of  done ">
+                <span>Dic: <p>{{dic.description}}</p></span>
+                <div class="user-info">
+                  {{dic.user.name}}
+                  <img src="{{dic.user.avatar}}">
+                </div>
+                <mat-divider></mat-divider>
+              </mat-list-item>
+            </mat-list>
+          </mat-expansion-panel>
+
+        </mat-accordion>
+
+      </div>
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
@@ -19,9 +74,11 @@
         Colaboradores
       </ng-template>
       <div class="involveds-list">
-        <div class="involved">
-          
-        </div>
+        <mat-list *ngFor = "let user of users$">
+          <mat-list-item>
+            <span>Nome: <p>{{user.name}}</p></span>
+          </mat-list-item>
+        </mat-list>
       </div>
     </mat-tab>
   </mat-tab-group>
