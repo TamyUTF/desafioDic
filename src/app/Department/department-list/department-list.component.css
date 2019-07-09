@@ -1,10 +1,80 @@
+.header {
+    margin:0;
+    background-color: #fff;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    color: #292929;
+    border-bottom: 3px solid rgb(61, 150, 223);
+    box-shadow: 1px 1px 2px #d6d6d6; 
+    height: 70px;
+}
+
+.header h1 {
+    width: 100%;
+    font-weight: 700;
+    font-size: 15pt;
+    text-align: center;
+}
+
+.header button {
+    background-color: rgb(61, 150, 223);
+    position: absolute;
+    top: 36px;
+    right: 15px;
+    z-index: 3;
+}
+
+.search {
+    background-color: #ffffff;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    padding: 5px;
+    height: 70px;
+    box-shadow: 1px 1px 2px #d6d6d6;
+    justify-content: center;
+}
+.search mat-form-field {
+    margin: 0px 5px;
+    font-size: 11pt;
+}
+
+.search .select-box {
+    width: 300px;
+}
+
+.search .search-input {
+    width: 40%;
+}
+
 .department-list {
-    margin: 1.5em 5em;
+    margin: 1em 5em;
+    background: #fff;
+    padding: 10px;
 }
 
 .mat-list h3 {
-    font-size: 1.2em;
+    font-size: 1.3em;
     font-weight: 600;
+    width: 100%;
+}
+
+.sub-header {
+    display: flex;
+    align-items: center;
+    padding: 0px 16px;
+}
+
+.sub-header button {
+    background-color: #4cd64c;
+    color: #fff;
+}
+
+.sub-header button .mat-icon {
+    font-size: 1.65em;
+    vertical-align: top;
 }
 .mat-expansion-panel {
     margin: 7px 0px;
@@ -12,7 +82,6 @@
 
 .mat-expansion-panel-header {
     background-color: rgb(61, 150, 223) !important;
-
 }
 
 .mat-expansion-panel-header:hover {
@@ -48,6 +117,23 @@
     font-size: 15pt;
 }
 
-.mat-list-item span {
+.process .mat-list-item span {
     width: 100%;
 }
+
+.process-filter .mat-list-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px;
+}
+
+.users img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0px 5px;
+}
+
+
+

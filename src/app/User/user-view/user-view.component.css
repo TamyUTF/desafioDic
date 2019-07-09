@@ -40,6 +40,17 @@
     margin: 10px 0px  0px 10px;
 }
 
+.user-name {
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.name {
+    width: 100%;
+}
+
+
 .user-avatar img{
     width: 130px;
     height: 130px;
@@ -58,6 +69,9 @@
     color: #000;
     margin: 0px;
 }
+.user-process {
+
+}
 
 .form {
     width: 100%;
@@ -65,10 +79,16 @@
 
 form {
     display: grid;
+    padding: 5px 20px;
 }
 .buttons {
     display: flex;
     justify-content: space-between;
+    padding-bottom:10px;
+}
+
+.buttons button {
+    margin: 0px 10px;
 }
 
 .user-data {
@@ -77,12 +97,46 @@ form {
 }
 
 .user-data .mat-form-field {
-    margin: 20px 10px;
+    margin: 5px;
     width: 100%;
 }
 
 .submit-button {
     color: #00a800;
-    font-weight: 600;
     border: 1px solid #00a800;
 }
+
+.foward-button {
+    color: #383838;
+    border: 1px solid #383838;
+}
+
+.mat-list {
+    height:  100%;
+}
+
+.dic-list .mat-list-base:hover {
+    transition: 1s;
+    background-color: #e0e0e0;
+}
+
+.dic-list .mat-list-item {
+    min-height: 60px;
+    cursor: pointer;
+}
+
+.mat-list-item span {
+    display: flex;
+    align-items: baseline;
+    font-weight: bold;
+    color: #383838;
+}
+
+.mat-list-item p {
+    width: 100%;
+    margin: 0px;
+    font-weight: normal;
+    color: #000;
+}
+
+

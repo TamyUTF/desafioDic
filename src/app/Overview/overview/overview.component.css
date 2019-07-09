@@ -1,0 +1,52 @@
+.header {
+    margin:0;
+    background-color: #fff;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    color: #292929;
+    border-bottom: 3px solid rgb(61, 150, 223);
+    box-shadow: 1px 1px 2px #d6d6d6; 
+    height: 70px;
+}
+
+.header h1 {
+    width: 100%;
+    font-weight: 700;
+    font-size: 15pt;
+    text-align: center;
+}
+
+.dashboard {
+    margin: 1em 5em;
+    background: #fff;
+    font-family: Roboto ,"Helvetica Neue",sans-serif;
+    border: 1px solid #d6d6d6;
+}
+
+.dashboard-title {
+    background-color: rgb(61, 150, 223);
+    justify-content: center;
+    box-shadow: 1px 1px 2px #d6d6d6;
+}
+
+.dashboard-title h3 {
+    font-size: 15pt;
+    color: #fff;
+    font-weight: 600;
+}
+
+
+.dashboard-filters mat-chip {
+    font-size: 11pt;
+    font-weight: bold;
+    color: #313131;
+    margin: 15px 5px;
+}
+.chart {
+    padding: 10px;
+}
+
+.chart google-chart {
+    margin: auto;
+}

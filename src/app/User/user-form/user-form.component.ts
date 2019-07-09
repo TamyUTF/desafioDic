@@ -31,8 +31,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
               private userService: UserService,
               private userEventService: UserEventService,
               private snackBar: Util) {
-    this.departmentService.list();
-    this.processService.list();
+    this.verifyServices();
     this.verifyUser();
     this.createForm();
   }
@@ -43,6 +42,13 @@ export class UserFormComponent implements OnInit, OnDestroy {
   verifyUser() {
     this.userEventService.getUser();
     this.subs =  this.userEventService.userEvent.subscribe(res => this.user = res);
+  }
+  verifyServices() {
+    if (!this.processService.processes$) {
+      this.processService.list();
+    } else if (!this.departmentService.departments$) {
+      this.departmentService.list();
+    }
   }
 
   createForm() {
@@ -62,27 +68,19 @@ export class UserFormComponent implements OnInit, OnDestroy {
   openForm(typeForm: string) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.direction = 'ltr';
-    dialogConfig.width = '350px';
+    dialogConfig.width = '400px';
     dialogConfig.data = {
-      type: typeForm
+      type: typeForm,
+      edit: false
     };
-    const dialogRef = this.modal.open(FormDepartmentProcessComponent, dialogConfig);
-    this.subs = dialogRef.afterClosed().subscribe(res => {
-      if (typeForm === 'department') {
-        this.departmentService.list();
-      } else if (typeForm === 'process') {
-        this.processService.list();
-      }
-    });
+    this.modal.open(FormDepartmentProcessComponent, dialogConfig);
   }
 
   onSubmit() {
-    console.log('estoua q');
-    console.log(this.form.value);
     if (this.form.valid && (this.form.get('password').value ===  this.form.get('password2').value)) {
       const userApi = this.userService.toApi(this.form.value);
       console.log(userApi);
-      this.userService.insert(userApi)
+      this.subs = this.userService.insert(userApi)
       .subscribe(res => {
         this.snackBar.openSnackBar('Usuário registrado com sucesso!', 'Ok!');
         this.userService.list();

@@ -5,17 +5,32 @@
   </mat-card-header>
   <mat-card-content>
     <form class = "form"  [formGroup] = "form" (ngSubmit)="onSubmit()">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
         <input  matInput
                 placeholder="E-mail"
                 floatLabel = "always"
                 formControlName = "email"/>
+        <mat-error *ngIf = "form.get('email').touched 
+                            && form.get('email').hasError('email')">
+          Informe um e-mail válido.
+        </mat-error>
+        <mat-error *ngIf = "form.get('email').touched 
+                            && form.get('email').hasError('required')">
+          Campo obrigatório.
+        </mat-error>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Senha</mat-label>
           <input  matInput
                   placeholder="Senha"
                   floatLabel = "always"
+                  type="password"
                   formControlName = "password"/>
+          <mat-error *ngIf = "form.get('password').touched 
+                              && form.get('password').hasError('required')">
+            Informe sua senha.
+          </mat-error>
       </mat-form-field>
       <button mat-stroked-button 
               class = "submit"

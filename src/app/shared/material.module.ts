@@ -18,6 +18,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatListModule} from '@angular/material/list';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
     exports: [
@@ -39,9 +40,9 @@ import {MatDividerModule} from '@angular/material/divider';
         MatChipsModule,
         MatExpansionModule,
         MatListModule,
-        MatDividerModule
-    ],
-    declarations: []
+        MatDividerModule,
+        MatDatepickerModule
+    ]
 })
 
 export class MaterialModule { }

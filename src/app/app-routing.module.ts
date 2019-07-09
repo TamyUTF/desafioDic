@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, CanActivate } from '@angular/router';
+import { Routes, RouterModule} from '@angular/router';
 
 import { AuthguardService } from './core/authguard.service';
 
@@ -7,6 +7,7 @@ import { DepartmentListComponent } from './Department/department-list/department
 import { DicListComponent } from './Dics/dic-list/dic-list.component';
 import { LoginComponent } from './Login/login.component';
 import { UserListComponent } from './User/user-list/user-list.component';
+import { OverviewComponent } from './Overview/overview/overview.component';
 
 const routes: Routes = [
   {
@@ -32,7 +33,13 @@ const routes: Routes = [
     path: 'departments',
     component: DepartmentListComponent,
     canActivate: [AuthguardService]
+  },
+  {
+    path: 'overview',
+    component: OverviewComponent,
+    canActivate: [AuthguardService]
   }
+
 
 
 ];

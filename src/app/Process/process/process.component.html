@@ -1,5 +1,5 @@
 <mat-toolbar class = "header">
-  <h1>Detalhes sobre {{department.name}}</h1>
+  <h1>Informações do processo</h1>
   <button mat-icon-button (click)="close()">
     <mat-icon>close</mat-icon>
   </button>
@@ -12,17 +12,17 @@
         <mat-icon>assignment</mat-icon>
         Resumo
       </ng-template>
-      <div class="department-review" *ngIf = "dics$">
+      <div class="process-review" *ngIf = "dics$">
         <mat-accordion [multi]='true'>
           <mat-expansion-panel>
             <mat-expansion-panel-header class="dic-todo">
               <mat-panel-title>Dics definindo</mat-panel-title>
               <mat-panel-description>{{toDo.length}} Dics</mat-panel-description>
             </mat-expansion-panel-header>
-            <mat-list *ngFor="let dic of  toDo">
-              <div class = "dic-review" (click)="viewDic(dic)">
-                <mat-list-item >
-                  <span>Desafio:&nbsp;<p>{{dic.description}}</p></span>
+            <mat-list *ngFor="let dic of  toDo ">
+              <div class="dic-review" (click)="viewDic(dic)">
+                <mat-list-item>
+                  <span>Dic:&nbsp;<p>{{dic.description}}</p></span>
                   <div class="user-info">
                     {{dic.user.name}}
                     <img src="../../../assets/images/userIcon.png">
@@ -40,8 +40,8 @@
             </mat-expansion-panel-header>
             <mat-list *ngFor="let dic of  doing ">
               <div class = "dic-review" (click)="viewDic(dic)">
-                <mat-list-item >
-                  <span>Dic: <p>{{dic.description}}</p></span>
+                <mat-list-item>
+                  <span>Dic:&nbsp;<p>{{dic.description}}</p></span>
                   <div class="user-info">
                     {{dic.user.name}}
                     <img src="../../../assets/images/userIcon.png">
@@ -57,10 +57,10 @@
               <mat-panel-title>Dics concluídos</mat-panel-title>
               <mat-panel-description>{{done.length}} Dics</mat-panel-description>
             </mat-expansion-panel-header>
-            <mat-list *ngFor="let dic of  done ">
+            <mat-list *ngFor="let dic of done ">
               <div class = "dic-review" (click)="viewDic(dic)">
                 <mat-list-item>
-                  <span>Dic: <p>{{dic.description}}</p></span>
+                  <span>Dic:&nbsp;<p>{{dic.description}}</p></span>
                   <div class="user-info">
                     {{dic.user.name}}
                     <img src="../../../assets/images/userIcon.png">
@@ -70,7 +70,9 @@
               <mat-divider></mat-divider>
             </mat-list>
           </mat-expansion-panel>
+
         </mat-accordion>
+
       </div>
     </mat-tab>
     <mat-tab>
@@ -79,14 +81,14 @@
         Colaboradores
       </ng-template>
       <div class="involveds-list">
-        <mat-list>
-          <div *ngFor = "let user of users$">
-            <mat-list-item class = "involved-item" (click)="viewUser(user)">
+        <mat-list *ngFor = "let user of users$">
+          <div class = "involved-item" (click)="viewUser(user)">
+            <mat-list-item>
               <img src="../../../assets/images/userIcon.png">
               <span>Nome:&nbsp;<p>{{user.name}}</p></span>
             </mat-list-item>
-            <mat-divider></mat-divider>
           </div>
+          <mat-divider></mat-divider>
         </mat-list>
       </div>
     </mat-tab>

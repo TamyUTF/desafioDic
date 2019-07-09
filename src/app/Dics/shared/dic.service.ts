@@ -21,7 +21,7 @@ export class DicService {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
-  insert(dic: DicApi) {
+  insert(dic) {
     return this.http.post<any>(this.apiUrl, dic);
   }
 
@@ -29,15 +29,15 @@ export class DicService {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
-  update(dic: DicApi) {
+  update(dic) {
     return this.http.put<any>(this.apiUrl, dic);
   }
 
   filterByStatus(status: string) {
     return this.http.get<any>(`${this.apiUrl}?status=${status}`);
   }
-  filterByUser(id: string) {
-    return this.http.get<any>(`${this.apiUrl}?user=${id}`);
+  filterByUser(name: string) {
+    return this.http.get<any>(`${this.apiUrl}?user=${name}`);
   }
   filterByDepartment(department: string) {
     return this.http.get<any>(`${this.apiUrl}?department=${department}`);

@@ -1,0 +1,50 @@
+<mat-toolbar class = "header">
+  <h1>VISÃO GLOBAL</h1>
+</mat-toolbar>
+
+<div class = "dashboard" *ngIf = "googleChart">
+  <mat-toolbar class = "dashboard-title">
+    <h3>Dics relacionados ao {{googleChart.title}} </h3>
+  </mat-toolbar>
+  <div class="dashboard-filters">
+    <mat-chip-list>
+      <mat-chip [matMenuTriggerFor]="department">Departmento</mat-chip>
+      <mat-chip [matMenuTriggerFor]="process">Processo</mat-chip>
+      <mat-chip>Colaborador</mat-chip>
+      <mat-chip [matMenuTriggerFor]="period">Período</mat-chip>
+    </mat-chip-list>
+
+    <mat-menu #department="matMenu" [overlapTrigger]="false" >
+      <button *ngFor = "let department of departmentService.departments$ | async"
+              (click) = 'filterByDepartment(department.name)'
+              mat-menu-item>{{department.name}}
+      </button>
+    </mat-menu>
+    <mat-menu #process="matMenu" [overlapTrigger]="false" yPosition="below">
+      <button *ngFor = "let process of processService.processes$ | async"
+              (click) = 'filterByProcess(process.name)'
+              mat-menu-item>{{process.name}}
+      </button>
+    </mat-menu>
+    <mat-menu #period="matMenu" [overlapTrigger]="false" yPosition="above">
+      <button *ngFor = "let period of periodService.periods$ | async"
+              (click) = 'filterByPeriod(period.name)'
+              mat-menu-item>{{period.name}}
+      </button>
+    </mat-menu>
+  </div>
+<div class = "chart">
+  <google-chart #chart
+    [type]="googleChart.type"
+    [data]="googleChart.data"
+    [columnNames]="googleChart.columnNames"
+    [options]="googleChart.options"
+    [width]="googleChart.width"
+    [height]="googleChart.height">
+  </google-chart>
+  </div>
+</div>
+
+
+
+

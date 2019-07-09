@@ -36,7 +36,9 @@ export class AuthService {
         localStorage.setItem('token', userLogin.token);
         this.router.navigate(['dics']);
       }
-    });
+    }, error => {
+      return false;
+    } );
   }
 
   getToken() {

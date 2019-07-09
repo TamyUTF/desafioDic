@@ -10,8 +10,9 @@ export class DialogueConfirmComponent implements OnInit, OnDestroy {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data,
               private dialogRef: MatDialogRef<DialogueConfirmComponent>) { }
-
+  msg: string;
   ngOnInit() {
+    this.msg = this.data.msg;
   }
 
   cancel() {

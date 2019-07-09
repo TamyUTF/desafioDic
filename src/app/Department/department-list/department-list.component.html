@@ -1,54 +1,145 @@
-<div class = "department-list">
-  <mat-accordion [multi]='true'>
-    <mat-expansion-panel *ngFor = "let department of departmentService.departments$ | async" 
-                          class = "department-panel"
-                          [disabled]="clickButton"
-                          (click)="clickButton = false">
-      <mat-expansion-panel-header [collapsedHeight]="'65px'" [expandedHeight]="'65px'">
-        <button mat-icon-button [matMenuTriggerFor]="menu" (click)="clickButton = true">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #menu = "matMenu">
-          <button mat-menu-item (click)="view(department)">
-            <span>Detalhes</span>
-          </button>
-          <button mat-menu-item  (click)="edit(department)">
-            <span>Editar</span>
-          </button>
-          <button mat-menu-item (click)="delete(department.id)">
-            <span>Exluir</span>
-          </button>
-        </mat-menu>
-        <mat-panel-title>{{department.name}}</mat-panel-title>
-        <mat-panel-description>
-          <img src="../../../assets/images/userIcon.png">
-          Líder
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <mat-list>
-        <h3 mat-subheader>Processos</h3>
-        <mat-divider></mat-divider>
-        <div class = 'process' *ngFor = "let process of processService.processes$ | async">
-          <mat-list-item *ngIf="process.department.id === department.id;">
-            <span>{{process.name}}</span>            
-            <button mat-icon-button [matMenuTriggerFor]="menuProcess">
+<mat-toolbar class = "header">
+  <h1>ESTRUTURA SISTÊMICA</h1>
+
+  <button class = "button-add" (click)="addDepartment()" mat-fab>
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-toolbar class = "search">
+  <mat-form-field #filter class="select-box" appearance="outline" >
+    <mat-label>Filtro</mat-label>
+    <mat-select [(value)]='filterBy' (selectionChange)="getElements($event)">
+      <mat-option value='all' selected>Mostrar Todos</mat-option>
+      <mat-option value='process'>Processo</mat-option>
+      <mat-option value='involved'>Colaborador</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field *ngIf = "filterBy !== 'all'" class="search-input" appearance="outline" >
+      <mat-label>Busca</mat-label>
+    <input [(ngModel)]="search" (keyup.enter)="searchFor(search)" matInput type="text">
+    <button mat-icon-button matSuffix (click)="searchFor(search)">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+</mat-toolbar>
+<div class = "department-list" *ngIf='user'>
+  <ng-container *ngIf="filterBy !== 'all'; then filter; else noFilter"></ng-container>
+  <ng-template #filter>
+
+    <ng-container *ngIf="filterBy == 'process'">
+        <div class = 'process' *ngFor = "let process of processFilter$ | async">
+          <mat-list>
+            <mat-list-item>
+              <span>{{process.name}}</span>            
+              <button mat-icon-button [matMenuTriggerFor]="menuProcess">
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menuProcess = "matMenu">
-                <button mat-menu-item (click)="view(process)">
+                <button mat-menu-item (click)="viewProcess(process)">
                   <span>Detalhes</span>
                 </button>
-                <button mat-menu-item (click)="edit(process)">
+                <button mat-menu-item (click)="editProcess(process)">
                   <span>Editar</span>
                 </button>
-                <button mat-menu-item (click)="delete(process.id)">
+                <button mat-menu-item (click)="deleteProcess(process.id)">
                   <span>Exluir</span>
                 </button>
               </mat-menu>
-            <mat-divider></mat-divider>
           </mat-list-item>
+        </mat-list>
+        <mat-divider></mat-divider>
         </div>
-      </mat-list>
-    </mat-expansion-panel>
-  </mat-accordion>
+    </ng-container>
+
+    <ng-container *ngIf="filterBy == 'involved'">
+        <div class = 'process users' *ngFor = "let involved of involvedFilter$ | async">
+          <mat-list>
+            <mat-list-item>
+              <img src='../../../assets/images/userIcon.png'>
+              <span>{{involved.name}}</span>            
+              <button mat-icon-button [matMenuTriggerFor]="menuProcess">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menuProcess = "matMenu" >
+                <button mat-menu-item (click)="viewUser(involved)">
+                  <span>Detalhes</span>
+                </button>
+                <button mat-menu-item [disabled]="user.isAdmin !== 1" (click)="editUser(involved)">
+                  <span>Editar</span>
+                </button>
+                <button mat-menu-item [disabled]="user.isAdmin !== 1" (click)="deleteUser(involved.id)">
+                  <span>Exluir</span>
+                </button>
+              </mat-menu>
+            </mat-list-item>
+          </mat-list>
+          <mat-divider></mat-divider>
+        </div>
+    </ng-container>
+  </ng-template>
+  <ng-template #noFilter>
+    <mat-accordion [multi]='true'>
+      <mat-expansion-panel *ngFor = "let department of departmentService.departments$ | async" 
+                            class = "department-panel"
+                            [disabled]="clickButton"
+                            (click)="clickButton = false">
+        <mat-expansion-panel-header [collapsedHeight]="'65px'" [expandedHeight]="'65px'">
+          <button mat-icon-button [matMenuTriggerFor]="menu" (click)="clickButton = true">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu = "matMenu">
+            <button mat-menu-item (click)="viewDepartment(department)">
+              <span>Detalhes</span>
+            </button>
+            <button mat-menu-item [disabled]="user.isAdmin !== 1" (click)="editDepartment(department)">
+              <span>Editar</span>
+            </button>
+            <button mat-menu-item [disabled]="user.isAdmin !== 1" (click)="deleteDepartment(department.id)">
+              <span>Exluir</span>
+            </button>
+          </mat-menu>
+          <mat-panel-title>{{department.name}}</mat-panel-title>
+          <mat-panel-description>
+            <img src="../../../assets/images/userIcon.png">
+            Líder
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <div class="sub-header">
+            <h3>Processos</h3>
+            <button mat-mini-fab
+                    class = "add-button"
+                    type = "button"
+                    (click)="addProcess(department.id)">
+              <mat-icon inline=true>add</mat-icon>
+            </button>
+          </div>
+          <mat-divider></mat-divider>
+          <div class = 'process' *ngFor = "let process of processService.processes$ | async">
+            <mat-list-item *ngIf="process.department.id === department.id">
+              <span>{{process.name}}</span>            
+              <button mat-icon-button [matMenuTriggerFor]="menuProcess">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menuProcess = "matMenu">
+                <button mat-menu-item (click)="viewProcess(process)">
+                  <span>Detalhes</span>
+                </button>
+                <button mat-menu-item [disabled]="user.isAdmin !== 1" (click)="editProcess(process)">
+                  <span>Editar</span>
+                </button>
+                <button mat-menu-item [disabled]="user.isAdmin !== 1" (click)="deleteProcess(process.id)">
+                  <span>Exluir</span>
+                </button>
+              </mat-menu>
+              <mat-divider></mat-divider>
+            </mat-list-item>
+          </div>
+        </mat-list>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+  </ng-template>
+  
+
 </div>

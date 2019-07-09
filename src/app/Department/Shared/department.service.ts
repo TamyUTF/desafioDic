@@ -31,7 +31,7 @@ export class DepartmentService {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
-  update(department: Department) {
+  update(department) {
     return this.http.put<any>(this.apiUrl, department);
   }
 

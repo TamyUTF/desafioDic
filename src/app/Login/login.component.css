@@ -1,12 +1,12 @@
 .login {
-    width: 400px;
+    width: 550px;
     height: 380px;
-    margin: 20px auto;
+    margin: 5% auto;
 }
 
 .login mat-card-header {
     justify-content: center;
-    
+    margin: 15px 0px;
 }
 
 .login mat-card-title {
@@ -16,20 +16,12 @@
 }
 
 .login button {
-    color: rgba(61, 150, 223);
+    color: rgb(59, 152, 228);
     font-weight: 600;
     border: 1px solid rgba(61, 150, 223);
+    margin: 10px 0px;
 }
 
 .form {
     display: grid;
-}
-
-.form span {
-    display: flex;
-}
-
-.form a {
-    cursor: pointer;
-    text-decoration: underline;
 }

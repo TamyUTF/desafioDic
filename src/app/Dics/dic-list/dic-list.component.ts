@@ -11,8 +11,8 @@ import { Observable, Subscription } from 'rxjs';
 import { Dic } from '../shared/dic.model';
 import { DicFormComponent } from '../dic-form/dic-form.component';
 import { DicEventService } from '../shared/dic-event.service';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { environment } from 'src/environments/environment';
+import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag} from '@angular/cdk/drag-drop';
+import { DialogueInputComponent } from 'src/app/shared/dialogue-input/dialogue-input.component';
 
 @Component({
   selector: 'app-dic-list',
@@ -24,6 +24,7 @@ export class DicListComponent implements OnInit, OnDestroy {
   constructor(public modal: MatDialog,
               private router: Router,
               private dicEventService: DicEventService,
+              private dicService: DicService,
               private userService: UserService,
               private authService: AuthService,
               private userEventService: UserEventService) {
@@ -38,6 +39,8 @@ export class DicListComponent implements OnInit, OnDestroy {
   dicToDo: Dic[];
   dicDoing: Dic[];
   subs: Subscription;
+  dialogSubs: Subscription;
+  dicDropped: any;
 
   verifyUser() {
     if (this.authService.isAuthenticated) {
@@ -65,7 +68,56 @@ export class DicListComponent implements OnInit, OnDestroy {
                         event.container.data,
                         event.previousIndex,
                         event.currentIndex);
+      this.changeStatus(event.item.data);
     }
+  }
+
+  changeStatus(dic) {
+    console.log('aaaaaaaaaa');
+    console.log(dic);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      msg: 'Informe a data de conclusão do desafio.',
+      startDate: dic.data.startDate
+    };
+    const dialogRef = this.modal.open(DialogueInputComponent, dialogConfig);
+    this.dialogSubs = dialogRef.afterClosed().subscribe(
+    res => {
+      if (res.confirm && res.date) {
+        this.dicService.update(this.toApi(dic, res.date)).subscribe(res => {
+          console.log('deu bom :)');
+        }, error => console.log('deu ruim' + error));
+      }
+    });
+  }
+  noReturnPredicate() {
+    return false;
+  }
+
+  evenPredicate(item: CdkDrag<string>) {
+    if (item.data === 'concluded') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  otherPredicate(item: CdkDrag<string>) {
+    console.log(item.data);
+    if (item.data === 'defined') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  toApi(dic, date) {
+    return {
+      idUser: dic.user.id,
+      idStatus: dic.status.id,
+      idPeriod: dic.period.id,
+      description: dic.description,
+      finishedData: date
+    };
   }
 
   create() {

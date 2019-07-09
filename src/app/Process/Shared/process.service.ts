@@ -22,7 +22,7 @@ export class ProcessService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  insert(process: ProcessApi) {
+  insert(process: any) {
     return this.http.post<any>(this.apiUrl, process);
   }
 
@@ -30,7 +30,7 @@ export class ProcessService {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 
-  update(process: ProcessApi) {
+  update(process: any) {
     return this.http.put<any>(this.apiUrl, process);
   }
 

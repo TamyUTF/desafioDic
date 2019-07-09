@@ -16,13 +16,21 @@
       <div class = "user-div">
         <div class = "user-view"  *ngIf="!edit">
           <div class = "user-avatar user-info">
-            <img src = "{{user.avatar}}">
+            <img src = "../../../assets/images/profile.jpg">
           </div>
           <div class = "user-review">
             <div class = "user-name user-info">
-              <span>
-                Nome:&nbsp;<p>{{user.name}}</p>
-              </span>
+              <div class="name">
+                <span>
+                  Nome:&nbsp;<p>{{user.name}}</p>
+                </span>
+              </div>
+              <div class = "settings " *ngIf = "user.id == currentUserId">
+                <button *ngIf = "!edit" mat-button (click)="editUser()">
+                  <mat-icon>create</mat-icon>
+                  Editar
+                </button>
+              </div>
             </div>
             <div class = "user-email user-info">
               <span>
@@ -47,39 +55,40 @@
                 </span>
               </ng-template>
             </div>
-            <div class = "settings user-info">
-              <button *ngIf = "!edit" mat-button (click)="editUser()">
-                <mat-icon>create</mat-icon>
-                Editar
-              </button>
-            </div>
           </div>
         </div>
         
       <div class = "form" *ngIf="edit">
         <div class = "buttons">
-          <button mat-icon-button (click)="edit = false">
-            <mat-icon>navigate_before</mat-icon>
+          <button mat-icon-button class = "foward-button" (click)="edit = false">
+            <mat-icon inline='true'>navigate_before</mat-icon>
           </button>
-          <button mat-icon-button type="submit">
-            <mat-icon >done</mat-icon>
+          <button mat-icon-button class = "submit-button" type="submit" (click)="onSubmit()">
+            <mat-icon inline='true'>done</mat-icon>
           </button>
         </div>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <form [formGroup]="form">
           <div class = "user-data">
-            <mat-form-field>
+            <mat-form-field appearance = "outline">
+              <mat-label>Nome</mat-label>
               <input  matInput
                       floatLabel = "always"
                       placeholder = "Nome"
                       formControlName = "name">
+              <mat-error>
+
+
+              </mat-error>        
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance = "outline">
+              <mat-label>E-mail</mat-label>
               <input  matInput
                       floatLabel = "always"
                       placeholder = "E-mail"
                       formControlName = "email">
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance = "outline">
+              <mat-label>Avatar</mat-label>
               <input   matInput
                       formControlName = "avatar"
                       placeholder="Avatar"
@@ -89,21 +98,21 @@
           </div>
 
           <div class = "user-data">
-            <mat-form-field>
+            <mat-form-field appearance = "outline">
             <mat-label>Empreendimento</mat-label>
             <mat-select formControlName = "department">
               <mat-option *ngFor = "let department of departmentService.departments$ | async" 
                           [value]="department.id">
-                {{user.department.name}}
+                          {{department.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field>
+          <mat-form-field appearance = "outline">
             <mat-label>Processo</mat-label>
             <mat-select formControlName = "process">
               <mat-option *ngFor = "let process of processService.processes$ | async" 
                           [value]="process.id">
-                {{user.process.name}}
+                          {{process.name}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -118,6 +127,14 @@
         <mat-icon>chrome_reader_mode</mat-icon>
         Meus Dics
       </ng-template>
+      <div class = "dic-list">
+        <mat-list *ngFor="let dic of dics$">
+          <mat-list-item (click)="viewDic(dic)">
+              <span>Desafio:&nbsp;<p>{{dic.description}}</p></span>
+          </mat-list-item>
+          <mat-divider></mat-divider> 
+        </mat-list>
+      </div>
     </mat-tab>
 
     <mat-tab>

@@ -18,12 +18,14 @@
         <input  matInput
                 placeholder = "Senha"
                 floatLabel = "always"
+                type="password"
                 formControlName = "password">
       </mat-form-field>
       <mat-form-field>
         <input  matInput
                 placeholder = "Confirme sua senha"
                 floatLabel = "always"
+                type="password"
                 formControlName = "password2">
       </mat-form-field>
       <mat-form-field>
@@ -39,13 +41,6 @@
                 formControlName = "email">
       </mat-form-field>
       <section>
-        <button mat-icon-button
-                *ngIf = "user.isAdmin"
-                class = "add-button" 
-                type="button" 
-                (click)="openForm('department')">
-          <mat-icon inline=true>add</mat-icon>
-        </button>
         <mat-form-field>
           <mat-label>Empreendimento</mat-label>
           <mat-select formControlName = "department">
@@ -58,13 +53,6 @@
         <mat-checkbox formControlName = "isLeaderDepartment">Lider do empreendimento</mat-checkbox>
       </section>
       <section>
-        <button mat-icon-button
-                *ngIf = "user.isAdmin || user.isLeaderProcess "
-                class = "add-button" 
-                type = "button" 
-                (click)="openForm('process')">
-          <mat-icon inline=true>add</mat-icon>
-        </button>
         <mat-form-field>
           <mat-label>Processo</mat-label>
           <mat-select formControlName = "process">

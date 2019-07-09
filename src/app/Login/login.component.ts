@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   }
   userLogin: UserLogin;
   form: FormGroup;
+  autenticated: boolean;
 
   ngOnInit() {
   }

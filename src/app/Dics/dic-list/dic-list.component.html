@@ -1,27 +1,6 @@
-<mat-toolbar class = "filter">
-  <mat-form-field class="select-box" appearance="outline">
-    <mat-label>Filtro</mat-label>
-    <mat-select>
-      <mat-option>Empreendimento</mat-option>
-      <mat-option>Processo</mat-option>
-      <mat-option>Colaborador</mat-option>
-      <mat-option>Situação</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field class="select-box" appearance="outline" *ngIf ="teste">
-    <mat-label>Empreendimento</mat-label>
-    <mat-select>
-      <mat-option>empreemdimento 1</mat-option>
-      <mat-option>empreemdimento 2</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field class="search-input" appearance="outline" >
-      <mat-label>Busca</mat-label>
-    <input matInput type="text">
-    <button mat-icon-button matSuffix>
-      <mat-icon>search</mat-icon>
-    </button>
-  </mat-form-field>
+<mat-toolbar class = "header">
+  <h1>DESAFIOS INDIVIDUAIS DOS COLABORADORES</h1>
+
   <button class = "button-add" [routerLink]="['new']" (click)="create()" mat-fab>
     <mat-icon>add</mat-icon>
   </button>
@@ -32,19 +11,23 @@
     <mat-toolbar class = "status-header status-todo">Definindo</mat-toolbar>
 
     <div  cdkDropList #toDoList = "cdkDropList" (cdkDropListDropped)="drop($event)"
-          [cdkDropListData] = "dicToDo" [cdkDropListConnectedTo]="[doneList, doingList]">
+          [cdkDropListData] = "dicToDo" [cdkDropListConnectedTo]="[doingList]"
+          [cdkDropListEnterPredicate]="noReturnPredicate">
       <ng-container *ngFor = "let dic of dicToDo">
           <mat-card cdkDrag id="{{dic.id}}"
+                    cdkDragData="toDefine"
                     class = "dic-card" 
                     [routerLink]="[dic.id]"
-                    (click)="view(dic)">
+                    (click)="view(dic)"
+                    (cdkDragDropped)="setDicDropped(dic)">
             <mat-card-header>
               <img mat-card-avatar src="../../../assets/images/userIcon.png">
               <mat-card-title>{{dic.user.name}}</mat-card-title>
-              <mat-card-subtitle> Empreendimento: {{dic.user.department.name}} 
+              <mat-card-subtitle> Empreendimento: {{dic.user.department.name}} <br/>
                                   Processo: {{dic.user.process.name}} 
               </mat-card-subtitle>
             </mat-card-header>
+            <mat-divider></mat-divider>
           <mat-card-content>
             {{dic.description}}
           </mat-card-content>
@@ -57,18 +40,23 @@
 
     <mat-toolbar class = "status-header status-doing">Definido</mat-toolbar>
     <div  cdkDropList #doingList = "cdkDropList" (cdkDropListDropped)="drop($event)"
-          [cdkDropListData] = "dicDoing" [cdkDropListConnectedTo]="[doneList, toDoList]">
+          [cdkDropListData] = "dicDoing" [cdkDropListConnectedTo]="[doneList]"
+          [cdkDropListEnterPredicate] = "otherPredicate">
       <ng-container *ngFor = "let dic of dicDoing">
         <mat-card cdkDrag
+                  cdkDragData="defined"
                   class = "dic-card"
-                  [routerLink]="[dic.id]" (click)="view(dic)">
+                  [routerLink]="[dic.id]" 
+                  (click)="view(dic)"
+                  (cdkDragDropped)="setDicDropped(dic)">
           <mat-card-header>
             <img mat-card-avatar src="../../../assets/images/userIcon.png">
             <mat-card-title>{{dic.user.name}}</mat-card-title>
-            <mat-card-subtitle> Empreendimento: {{dic.user.department.name}} 
+            <mat-card-subtitle> Empreendimento: {{dic.user.department.name}}  <br/>
                                 Processo: {{dic.user.process.name}} 
             </mat-card-subtitle>
           </mat-card-header>
+          <mat-divider></mat-divider>
           <mat-card-content>
             {{dic.description}}
           </mat-card-content>
@@ -81,18 +69,22 @@
   <mat-card class = "status-card">
     <mat-toolbar class = "status-header status-done">Concluído</mat-toolbar>
     <div  cdkDropList #doneList = "cdkDropList" (cdkDropListDropped)="drop($event)"
-          [cdkDropListData] = "dicDone" [cdkDropListConnectedTo]="[doingList,toDoList]">
+          [cdkDropListData] = "dicDone" [cdkDropListConnectedTo]="[doingList]"
+          [cdkDropListEnterPredicate]="evenPredicate">
       <ng-container  *ngFor = "let dic of dicDone">
         <mat-card cdkDrag class = "dic-card" 
+                  cdkDragData="concluded"
                   [routerLink]="[dic.id]"
-                  (click)="view(dic)">
+                  (click)="view(dic)"
+                  (cdkDragDropped)="setDicDropped(dic)">
           <mat-card-header>
             <img mat-card-avatar src="../../../assets/images/userIcon.png">
             <mat-card-title>{{dic.user.name}}</mat-card-title>
-            <mat-card-subtitle> Empreendimento: {{dic.user.department.name}} 
+            <mat-card-subtitle> Empreendimento: {{dic.user.department.name}}  <br/>
                                 Processo: {{dic.user.process.name}} 
             </mat-card-subtitle>
           </mat-card-header>
+          <mat-divider></mat-divider>
           <mat-card-content>
             {{dic.description}}
           </mat-card-content>

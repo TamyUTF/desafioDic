@@ -1,6 +1,6 @@
 <mat-toolbar class = header>
-  <h1 *ngIf="data.type == 'department'">Cadastro de Empreendimento</h1>
-  <h1 *ngIf="data.type == 'process'">Cadastro de Processo</h1>
+  <h1 *ngIf="data.type == 'department'">Formulário para Empreendimento</h1>
+  <h1 *ngIf="data.type == 'process'">Formulário para Processo</h1>
   <button mat-icon-button (click)="close()">
     <mat-icon>close</mat-icon>
   </button>
@@ -14,25 +14,7 @@
         <input matInput
                 placeholder = "Nome do empreendimento"
                 floatLabel = "always"
-                formControlName = "name">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Líder do empreendimento</mat-label>
-        <mat-select formControlName = "leader">
-          <mat-option *ngFor = "let user of userService.users$ | async"
-                      [value] = "user">
-            {{user.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Colaboradores</mat-label>
-        <mat-select formControlName = "involveds" multiple>
-          <mat-option *ngFor = "let user of userService.users$ | async"
-                      [value] = "user">
-          {{user.name}}          
-          </mat-option>
-        </mat-select>
+                formControlName = "department">
       </mat-form-field>
       <button mat-stroked-button class = "submit-button" type="submit">CADASTRAR</button>
     </form>
@@ -43,31 +25,14 @@
         <input  matInput
                 placeholder="Nome do processo"
                 floatLabel = "always"
-                formControlName = "name">
+                formControlName = "process">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Pertence ao empreendimento</mat-label>
         <mat-select formControlName = "department">
           <mat-option *ngFor = "let department of departmentService.departments$ | async"
                       [value] = "department.id">
-            {{department.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Líder do processo</mat-label>
-        <mat-select formControlName = "leader">
-          <mat-option *ngFor = "let user of userService.users$ | async" [value]="user">
-            {{user.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Colaboradores</mat-label>
-        <mat-select formControlName = "involveds" multiple>
-          <mat-option *ngFor = "let user of userService.users$ | async"
-                      [value] = "user">
-          {{user.name}}          
+            {{department.name}}          
           </mat-option>
         </mat-select>
       </mat-form-field>

@@ -1,9 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MaterialModule } from './shared/material.module';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { GoogleChartsModule } from 'angular-google-charts';
 
 import { AuthService } from './core/auth.service';
 import { AuthguardService } from './core/authguard.service';
@@ -21,9 +22,11 @@ import { UserFormComponent } from './User/user-form/user-form.component';
 import { UserListComponent } from './User/user-list/user-list.component';
 import { FormDepartmentProcessComponent } from './shared/form-department-process/form-department-process.component';
 import { DepartmentComponent } from './Department/department/department.component';
-import { ProcessViewComponent } from './Process/process-view/process-view.component';
 import { PeriodFormComponent } from './Period/period-form/period-form.component';
 import { DialogueConfirmComponent } from './shared/dialogue-confirm/dialogue-confirm.component';
+import { ProcessComponent } from './Process/process/process.component';
+import { OverviewComponent } from './Overview/overview/overview.component';
+import { DialogueInputComponent } from './shared/dialogue-input/dialogue-input.component';
 
 @NgModule({
   declarations: [
@@ -36,9 +39,11 @@ import { DialogueConfirmComponent } from './shared/dialogue-confirm/dialogue-con
     UserListComponent,
     FormDepartmentProcessComponent,
     DepartmentComponent,
-    ProcessViewComponent,
+    ProcessComponent,
     PeriodFormComponent,
-    DialogueConfirmComponent
+    DialogueConfirmComponent,
+    OverviewComponent,
+    DialogueInputComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +53,8 @@ import { DialogueConfirmComponent } from './shared/dialogue-confirm/dialogue-con
     ReactiveFormsModule,
     FormsModule,
     DicModule,
-    HttpClientModule
+    HttpClientModule,
+    GoogleChartsModule
   ],
   providers: [
     AuthService,
@@ -67,7 +73,9 @@ import { DialogueConfirmComponent } from './shared/dialogue-confirm/dialogue-con
     UserFormComponent,
     FormDepartmentProcessComponent,
     DepartmentComponent,
-    DialogueConfirmComponent
+    DialogueConfirmComponent,
+    ProcessComponent,
+    DialogueInputComponent
   ]
 })
 export class AppModule { }

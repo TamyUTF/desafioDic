@@ -1,0 +1,19 @@
+<mat-dialog-content class = container>
+  <mat-toolbar>
+    <h2>Aviso</h2>
+  </mat-toolbar>
+  <p>{{msg}}</p>
+  <mat-form-field appearence = "outline">
+    <input  matInput 
+            [matDatepicker]="picker" 
+            placeholder="Data de conclusão"
+            [formControl]="date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker [startAt]="startDate"></mat-datepicker>
+  </mat-form-field>
+  
+  <div class = "modal-buttons">
+    <button class="cancel" mat-raised-button (click)="cancel()">NÃO</button>
+    <button class="confirm" mat-raised-button (click)="confirm()">SIM</button>
+  </div>
+</mat-dialog-content>  

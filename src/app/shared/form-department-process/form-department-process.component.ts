@@ -1,6 +1,7 @@
+import { ProcessApi } from './../../Process/Shared/process.model';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,13 +9,14 @@ import { ProcessService } from 'src/app/Process/Shared/process.service';
 import { DepartmentService } from 'src/app/Department/Shared/department.service';
 import { UserService } from './../../User/Shared/user.service';
 import { Util } from '../util';
+import { Department } from 'src/app/Department/Shared/department.model';
 
 @Component({
   selector: 'app-form-department-process',
   templateUrl: './form-department-process.component.html',
   styleUrls: ['./form-department-process.component.css']
 })
-export class FormDepartmentProcessComponent implements OnInit {
+export class FormDepartmentProcessComponent implements OnInit, OnDestroy {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data,
               private dialogRef: MatDialogRef<FormDepartmentProcessComponent>,
@@ -24,65 +26,154 @@ export class FormDepartmentProcessComponent implements OnInit {
               private userService: UserService,
               private processService: ProcessService,
               private departmentService: DepartmentService) {
-    this.userService.list();
-    this.processService.list();
-    this.departmentService.list();
+    this.verifyServices();
+    this.setData();
     this.createForm();
   }
   form: FormGroup;
   subs: Subscription;
+  department: Department;
+  process: any;
+  edit: false;
+
+
+  verifyServices() {
+    if (!this.processService.processes$) {
+      this.processService.list();
+    } else if (!this.departmentService.departments$) {
+      this.departmentService.list();
+    }
+  }
 
   onSubmit() {
     if (this.form.valid) {
       if (this.data.type === 'department') {
-        this.subs = this.departmentService.insert(this.form.value)
-        .subscribe(res => {
-          if (this.form.get('leader')) {
-            console.log(this.form.get('leader'));
-            console.log(this.form.get('leader').value);
-            const userApi = this.userService.toApi(this.form.get('leader').value, true, false, res.id, null);
-            this.userService.update(userApi).subscribe(response => {
-              console.log('Cadastrado com sucesso!');
-            }, error => console.error(error));
-          }
-          if (this.form.get('involveds')) {
-            this.form.get('involveds').value.forEach(involveds => {
-              const userApi = this.userService.toApi(involveds, false, false , res.id, null);
-              this.userService.update(userApi).subscribe(response => {
-                console.log('Cadastrado com sucesso!');
-              }, error => console.error(error));
-            });
-          }
-          this.snackbar.openSnackBar('Empreendimento inserido com sucesso!', 'Ok!');
-          // this.departmentService.list();
-        }, error => console.error(error));
-        // if (this.data.get('leader').value) {
-        // }
+        if (this.edit) {
+          this.subs = this.departmentService.update(this.toApi())
+          .subscribe(res => {
+            this.snackbar.openSnackBar('Empreendimento atualizado com sucesso!', 'Ok!');
+            this.departmentService.list();
+            this.close();
+          }, error => console.error(error));
+        } else {
+          console.log(this.form.value);
+          this.subs = this.departmentService.insert(this.toApi())
+          .subscribe(res => {
+            this.snackbar.openSnackBar('Empreendimento inserido com sucesso!', 'Ok!');
+            this.departmentService.list();
+            this.close();
+          }, error => console.error(error));
+        }
+      } else if (this.data.type === 'process') {
+        if (this.edit) {
+          this.subs = this.processService.update(this.toApi())
+          .subscribe(res => {
+            this.snackbar.openSnackBar('Processo atualizado com sucesso!', 'Ok!');
+            this.processService.list();
+            this.close();
+          }, error => console.error(error));
+        } else {
+          this.subs = this.processService.insert(this.toApi())
+          .subscribe(res => {
+            this.snackbar.openSnackBar('Processo inserido com sucesso!', 'Ok!');
+            this.processService.list();
+            this.close();
+          }, error => console.error(error));
+        }
       }
+    }
+  }
 
+  toApi() {
+    if (this.data.type === 'process') {
+      if (this.edit) {
+        return ({
+          id: this.process.id,
+          name : this.form.get('process').value,
+          idDepartment: this.form.get('department').value
+        });
+      } else {
+        return ({
+          name : this.form.get('process').value,
+          idDepartment: this.form.get('department').value
+        });
+      }
+    } else
+    if (this.data.type === 'department') {
+      if (this.edit) {
+        return ({
+          id: this.department.id,
+          name: this.form.get('department').value
+        });
+      } else {
+        return ({
+          name: this.form.get('department').value
+        });
+      }
+    }
+  }
+
+  /*Caso foi editar, essa função vai setar process/ department e edit */
+  setData() {
+    if (this.data.type === 'department') {
+      this.department = this.data.department;
+      this.edit = this.data.edit;
+    } else if (this.data.type === 'process') {
+      this.process = this.data.process;
+      this.edit = this.data.edit;
     }
   }
 
   createForm() {
     if (this.data.type === 'department') {
       this.form = this.fBuilder.group({
-        name: [null, [Validators.required]],
-        leader: [null],
-        involveds: [null]
+        id: [null],
+        department: [null, [Validators.required]]
       });
-    } else if (this.data.type === 'process') {
+      if (this.edit) {
+        this.form.setValue({
+          id: this.department.id,
+          department: this.department.name
+        });
+      }
+    } else
+    if (this.data.type === 'process') {
       this.form = this.fBuilder.group({
+        id: [null],
         department: [null, [Validators.required]],
-        process: [null, [Validators.required]],
-        leader: [null],
-        involveds: [null]
+        process: [null, [Validators.required]]
       });
+      if (this.edit) {
+        console.log(this.process.department.name);
+        this.form.setValue({
+          id: this.process.id,
+          process: this.process.name,
+          department: this.process.department.id
+        });
+      } else
+      if (this.data.departmentId) {
+        this.form.setValue({
+          id: null,
+          process: null,
+          department: this.data.departmentId
+        });
+      }
     }
   }
-  ngOnInit() {
+
+  close() {
+    this.dialogRef.close();
+  }
+
+
+  ngOnDestroy() {
     if (this.subs) {
       this.subs.unsubscribe();
     }
+  }
+
+  ngOnInit() {
+
   }
 
 }
