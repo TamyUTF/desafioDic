@@ -1,24 +1,24 @@
 .container {
-    width: 300px;
-    height: 200px;
     overflow: hidden;
     font-family: Roboto ,"Helvetica Neue",sans-serif;
     text-align: center;
 }
+
+.mat-dialog-content {
+    overflow: hidden;
+}
+
 .mat-toolbar{
     background-color: rgba(221, 221, 221, 0.651);
     border-bottom: 1px solid #cacaca;
-}
-
-.mat-toolbar h2{
-    position: relative;
-    margin: 20px 0px;
+    text-align: center;
+    justify-content: center;
 }
 
 .modal-buttons {
     display: flex;
     place-content: space-around;
-    margin: 30px 0px;
+    margin: 10px 0px;
 }
 
 .modal-buttons button {

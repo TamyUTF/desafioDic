@@ -11,7 +11,7 @@ import { Util } from './../../shared/util';
 import { UserService } from './../Shared/user.service';
 import { DepartmentService } from 'src/app/Department/Shared/department.service';
 import { ProcessService } from 'src/app/Process/Shared/process.service';
-import { User } from '../Shared/user.model';
+import { User, UserApi } from '../Shared/user.model';
 
 @Component({
   selector: 'app-user-form',
@@ -38,6 +38,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
   subs: Subscription;
   user: User;
+  invalidPassword = false;
 
   verifyUser() {
     this.userEventService.getUser();
@@ -46,20 +47,23 @@ export class UserFormComponent implements OnInit, OnDestroy {
   verifyServices() {
     if (!this.processService.processes$) {
       this.processService.list();
-    } else if (!this.departmentService.departments$) {
+    }
+    if (!this.departmentService.departments$) {
       this.departmentService.list();
     }
   }
 
+
+
   createForm() {
     this.form = this.fBuilder.group({
-      name: [null, [Validators.required]],
+      name: [null, [Validators.required, Validators.minLength(3)]],
       avatar: [null],
-      email: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
       department: [null, [Validators.required]],
       process: [null],
-      password: [null, [Validators.required]],
-      password2: [null, [Validators.required]],
+      password: [null, [Validators.required, Validators.minLength(3)]],
+      password2: [null, [Validators.required, Validators.minLength(3)]],
       isLeaderDepartment: [null],
       isLeaderProcess: [null]
     });
@@ -77,18 +81,53 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.form.valid && (this.form.get('password').value ===  this.form.get('password2').value)) {
-      const userApi = this.userService.toApi(this.form.value);
-      console.log(userApi);
-      this.subs = this.userService.insert(userApi)
+    if (this.form.valid) {
+      console.log(this.toApi());
+      if (this.form.get('password').value ===  this.form.get('password2').value) {
+      this.subs = this.userService.insert(this.toApi())
       .subscribe(res => {
         this.snackBar.openSnackBar('Usuário registrado com sucesso!', 'Ok!');
         this.userService.list();
         this.location.forward();
         this.close();
       }, error => console.error(error));
+      } else {
+        this.invalidPassword = true;
+      }
     }
   }
+
+  toApi() {
+    let avatar = '';
+    let isLeaderProcess = 0;
+    let isLeaderDepartment = 0;
+    let process = 0;
+
+    if (this.form.get('avatar').value) {
+      avatar = this.form.get('avatar').value;
+    }
+    if (this.form.get('process').value) {
+      process = this.form.get('process').value;
+      if (this.form.get('isLeaderProcess').value) {
+        isLeaderProcess = 1;
+      }
+    }
+    if (this.form.get('isLeaderDepartment').value) {
+      isLeaderDepartment = 1;
+    }
+
+    return {
+      name: this.form.get('name').value,
+      email: this.form.get('email').value,
+      password: this.form.get('password').value,
+      process: this.form.get('process').value,
+      department: this.form.get('department').value,
+      avatar,
+      isLeaderDepartment,
+      isLeaderProcess
+    };
+  }
+  
   ngOnDestroy() {
     this.subs.unsubscribe();
     this.location.forward();

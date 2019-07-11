@@ -3,6 +3,7 @@ import { Routes, RouterModule} from '@angular/router';
 
 import { AuthguardService } from './core/authguard.service';
 
+import { PeriodFormComponent } from './Period/period-form/period-form.component';
 import { DepartmentListComponent } from './Department/department-list/department-list.component';
 import { DicListComponent } from './Dics/dic-list/dic-list.component';
 import { LoginComponent } from './Login/login.component';
@@ -25,11 +26,6 @@ const routes: Routes = [
     canActivate: [AuthguardService]
   },
   {
-    path: 'users',
-    component: UserListComponent,
-    canActivate: [AuthguardService]
-  },
-  {
     path: 'departments',
     component: DepartmentListComponent,
     canActivate: [AuthguardService]
@@ -39,9 +35,6 @@ const routes: Routes = [
     component: OverviewComponent,
     canActivate: [AuthguardService]
   }
-
-
-
 ];
 
 @NgModule({

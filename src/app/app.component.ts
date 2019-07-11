@@ -7,6 +7,7 @@ import { User } from './User/Shared/user.model';
 import { UserEventService } from './User/Shared/user-event.service';
 import { UserViewComponent } from './User/user-view/user-view.component';
 import { UserFormComponent } from './User/user-form/user-form.component';
+import { PeriodFormComponent } from './Period/period-form/period-form.component';
 
 @Component({
   selector: 'app-root',
@@ -47,6 +48,17 @@ export class AppComponent {
 
   viewUserdic() {
 
+  }
+
+  registerPeriod() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.direction = 'ltr';
+    dialogConfig.width = '550px';
+    dialogConfig.minHeight = '350px';
+    dialogConfig.data = {
+      type: 'new'
+    };
+    this.modal.open(PeriodFormComponent, dialogConfig);
   }
 
   registerUser() {

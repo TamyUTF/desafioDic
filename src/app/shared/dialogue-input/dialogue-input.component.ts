@@ -13,8 +13,13 @@ export class DialogueInputComponent implements OnInit, OnDestroy {
               private dialogRef: MatDialogRef<DialogueInputComponent>) { }
     msg: string;
     date = new FormControl( new Date());
+    maxDate: Date;
+    startDate: Date;
+
   ngOnInit() {
     this.msg = this.data.msg;
+    this.maxDate = this.data.maxDate;
+    this.startDate = this.data.startDate;
   }
 
   cancel() {

@@ -41,9 +41,12 @@
     height: 100%;
     margin: 20px 10px 10px 10px;
 }
+
+.dic-div {
+    min-height: 200px;
+}
 .status-card {
     padding: 0px 0px 10px 0px;
-    min-height: 200px;
 }
 
 .status-header {
@@ -77,6 +80,11 @@
     cursor: pointer;
     padding: 0px;
     border-left: 5px solid rgb(61, 150, 223);
+    ;
+}
+
+.teste {
+    min-height: 100px   
 }
 
 .dic-card mat-card-header {

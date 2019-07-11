@@ -13,6 +13,7 @@ import { DicFormComponent } from '../dic-form/dic-form.component';
 import { DicEventService } from '../shared/dic-event.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag} from '@angular/cdk/drag-drop';
 import { DialogueInputComponent } from 'src/app/shared/dialogue-input/dialogue-input.component';
+import { Util } from 'src/app/shared/util';
 
 @Component({
   selector: 'app-dic-list',
@@ -27,7 +28,8 @@ export class DicListComponent implements OnInit, OnDestroy {
               private dicService: DicService,
               private userService: UserService,
               private authService: AuthService,
-              private userEventService: UserEventService) {
+              private userEventService: UserEventService,
+              private snackbar: Util) {
     this.verifyUser();
   }
   filters = ['Empreendedorismo', 'Colaborador', 'Periodo'];
@@ -68,56 +70,84 @@ export class DicListComponent implements OnInit, OnDestroy {
                         event.container.data,
                         event.previousIndex,
                         event.currentIndex);
-      this.changeStatus(event.item.data);
+      this.changeStatus();
     }
   }
 
-  changeStatus(dic) {
-    console.log('aaaaaaaaaa');
-    console.log(dic);
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.data = {
-      msg: 'Informe a data de conclusão do desafio.',
-      startDate: dic.data.startDate
-    };
-    const dialogRef = this.modal.open(DialogueInputComponent, dialogConfig);
-    this.dialogSubs = dialogRef.afterClosed().subscribe(
-    res => {
-      if (res.confirm && res.date) {
-        this.dicService.update(this.toApi(dic, res.date)).subscribe(res => {
-          console.log('deu bom :)');
-        }, error => console.log('deu ruim' + error));
-      }
-    });
+  changeStatus() {
+    if (this.dicDropped.status.id === 1) {
+      this.dicService.update(this.toApi(this.dicDropped))
+      .subscribe(res => {
+        console.log('Foi alterado');
+        this.getDics();
+       },
+      error => console.error(error));
+
+    } else if (this.dicDropped.status.id === 2) {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.width = '350px',
+      dialogConfig.minHeight = '300px',
+      dialogConfig.data = {
+        msg: 'Informe a data de conclusão do desafio.',
+        startDate: this.dicDropped.startDate,
+        maxDate: this.dicDropped.period.endDate,
+      };
+      const dialogRef = this.modal.open(DialogueInputComponent, dialogConfig);
+      this.dialogSubs = dialogRef.afterClosed().subscribe(
+        res => {
+          this.dicDropped.finishedDate = res.date;
+          this.dicService.update(this.toApi(this.dicDropped, res.date)).subscribe(res => {
+            this.snackbar.openSnackBar('Dic foi concluído!', 'Ok!');
+            this.getDics();
+          }, error => console.log('deu ruim' + error));
+        }
+      );
+    }
   }
+
+  setDicDropped(dic) {
+    this.dicDropped = dic;
+  }
+
   noReturnPredicate() {
     return false;
   }
 
   evenPredicate(item: CdkDrag<string>) {
-    if (item.data === 'concluded') {
-      return true;
-    } else {
-      return false;
-    }
-  }
-  otherPredicate(item: CdkDrag<string>) {
-    console.log(item.data);
-    if (item.data === 'defined') {
+    if (item.data === 'dicDoing') {
       return true;
     } else {
       return false;
     }
   }
 
-  toApi(dic, date) {
-    return {
-      idUser: dic.user.id,
-      idStatus: dic.status.id,
-      idPeriod: dic.period.id,
-      description: dic.description,
-      finishedData: date
-    };
+  otherPredicate(item: CdkDrag<string>) {
+    if (item.data === 'dicToDo') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  toApi(dic, date?) {
+    if (dic.status.id === 1) {
+      return {
+        id: dic.id,
+        idUser: dic.user.id,
+        idStatus: 2,
+        idPeriod: dic.period.id,
+        description: dic.description
+      };
+    } else if (dic.status.id === 2 && date) {
+      return {
+        id: dic.id,
+        idUser: dic.user.id,
+        idStatus: 3,
+        idPeriod: dic.period.id,
+        description: dic.description,
+        finishedData: date
+      };
+    }
   }
 
   create() {

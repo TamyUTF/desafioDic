@@ -27,7 +27,7 @@
   <ng-template #filter>
 
     <ng-container *ngIf="filterBy == 'process'">
-        <div class = 'process' *ngFor = "let process of processFilter$ | async">
+        <div class = 'process' *ngFor = "let process of processFilter$">
           <mat-list>
             <mat-list-item>
               <span>{{process.name}}</span>            
@@ -52,7 +52,7 @@
     </ng-container>
 
     <ng-container *ngIf="filterBy == 'involved'">
-        <div class = 'process users' *ngFor = "let involved of involvedFilter$ | async">
+        <div class = 'process users' *ngFor = "let involved of involvedFilter$">
           <mat-list>
             <mat-list-item>
               <img src='../../../assets/images/userIcon.png'>

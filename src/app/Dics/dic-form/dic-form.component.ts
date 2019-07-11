@@ -1,3 +1,4 @@
+import { UserEventService } from './../../User/Shared/user-event.service';
 import { Location } from '@angular/common';
 import { Util } from './../../shared/util';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -7,8 +8,8 @@ import { Router } from '@angular/router';
 
 import { UserService } from './../../User/Shared/user.service';
 import { DicService } from './../shared/dic.service';
-import { User } from 'src/app/User/Shared/user.model';
 import { Subscription } from 'rxjs';
+import { PeriodService } from 'src/app/Period/Shared/period.service';
 
 @Component({
   selector: 'app-dic-form',
@@ -23,20 +24,29 @@ export class DicFormComponent implements OnInit, OnDestroy {
                 private fBuilder: FormBuilder,
                 private dicService: DicService,
                 private userService: UserService,
+                private userEventService: UserEventService,
+                private periodService: PeriodService,
                 private snackbar: Util,
                 private location: Location) {
+    this.verifyServices();
     this.createForm();
   }
   subs: Subscription;
   form: FormGroup;
+  userId: any;
+
+  verifyServices() {
+    if (!this.periodService.periods$) {
+      this.periodService.list();
+    }
+  }
 
   createForm() {
     this.form = this.fBuilder.group({
-      // tslint:disable-next-line:radix
-      idUser: [parseInt(localStorage.getItem('currentUser'))],
+      idUser: [this.userService.getUserId(localStorage.getItem('currentUser'))],
       idStatus: [2],
-      idPeriod: [2],
-      description: [null, [Validators.required]]
+      idPeriod: [null, [Validators.required]],
+      description: [null, [Validators.required, Validators.minLength(3)]]
     });
   }
 

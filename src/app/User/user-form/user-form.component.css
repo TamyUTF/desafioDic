@@ -12,6 +12,7 @@
     color: #292929;
     border-bottom: 3px solid rgb(61, 150, 223);
     box-shadow: 1px 1px 2px #d6d6d6; 
+    text-align: center;
 }
 
 .header h1 {
@@ -23,13 +24,13 @@ form {
     display: grid;
     padding: 20px;
 }
- form section {
-    flex-direction: row;
- }
 
- section {
+.section {
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
- }
+    align-items: center;
+}
 
  form .mat-checkbox {
     margin: 0em 1.5em;

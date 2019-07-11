@@ -25,12 +25,6 @@
                   Nome:&nbsp;<p>{{user.name}}</p>
                 </span>
               </div>
-              <div class = "settings " *ngIf = "user.id == currentUserId">
-                <button *ngIf = "!edit" mat-button (click)="editUser()">
-                  <mat-icon>create</mat-icon>
-                  Editar
-                </button>
-              </div>
             </div>
             <div class = "user-email user-info">
               <span>
@@ -57,6 +51,12 @@
             </div>
           </div>
         </div>
+            <div class = "settings " *ngIf = "user.id == currentUserId">
+              <button *ngIf = "!edit" mat-button (click)="editUser()">
+                <mat-icon>create</mat-icon>
+                Editar
+              </button>
+            </div>
         
       <div class = "form" *ngIf="edit">
         <div class = "buttons">

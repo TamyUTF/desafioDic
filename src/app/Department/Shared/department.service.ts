@@ -34,5 +34,4 @@ export class DepartmentService {
   update(department) {
     return this.http.put<any>(this.apiUrl, department);
   }
-
 }

@@ -1,4 +1,3 @@
-import { ProcessApi } from './../../Process/Shared/process.model';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
@@ -35,14 +34,32 @@ export class FormDepartmentProcessComponent implements OnInit, OnDestroy {
   department: Department;
   process: any;
   edit: false;
+  processLeader: any;
+  departmentLeader: any;
 
 
   verifyServices() {
     if (!this.processService.processes$) {
       this.processService.list();
-    } else if (!this.departmentService.departments$) {
+    }
+    if (!this.departmentService.departments$) {
       this.departmentService.list();
     }
+    if (!this.userService.users$) {
+      this.userService.list();
+    }
+  }
+
+  getProcessLeader(idProcess) {
+    this.userService.getAll().subscribe(user => {
+      this.processLeader = user.find(res => res.idProcess === idProcess && res.isLeaderProcess == 1);
+    });
+  }
+
+  getDepartmentLeader(idDepartment) {
+    this.userService.getAll().subscribe(user => {
+      this.processLeader = user.find(res => res.idDepartment === idDepartment && res.isLeaderDepartment == 1);
+    });
   }
 
   onSubmit() {
@@ -64,7 +81,8 @@ export class FormDepartmentProcessComponent implements OnInit, OnDestroy {
             this.close();
           }, error => console.error(error));
         }
-      } else if (this.data.type === 'process') {
+      } else
+      if (this.data.type === 'process') {
         if (this.edit) {
           this.subs = this.processService.update(this.toApi())
           .subscribe(res => {
@@ -82,6 +100,16 @@ export class FormDepartmentProcessComponent implements OnInit, OnDestroy {
         }
       }
     }
+  }
+
+  setUserLeader(user) {
+    if (this.processLeader.id !== user.id) {
+
+    }
+  }
+
+  userToApi(processLeader?, departmentLeader?) {
+
   }
 
   toApi() {
@@ -118,9 +146,11 @@ export class FormDepartmentProcessComponent implements OnInit, OnDestroy {
     if (this.data.type === 'department') {
       this.department = this.data.department;
       this.edit = this.data.edit;
+      this.getDepartmentLeader(this.department.id);
     } else if (this.data.type === 'process') {
       this.process = this.data.process;
       this.edit = this.data.edit;
+      this.getProcessLeader(this.process.id);
     }
   }
 
@@ -128,12 +158,14 @@ export class FormDepartmentProcessComponent implements OnInit, OnDestroy {
     if (this.data.type === 'department') {
       this.form = this.fBuilder.group({
         id: [null],
-        department: [null, [Validators.required]]
+        department: [null, [Validators.required, Validators.minLength(3)]],
+        leader: [null, [Validators.required]]
       });
       if (this.edit) {
         this.form.setValue({
           id: this.department.id,
-          department: this.department.name
+          department: this.department.name,
+          leader: this.departmentLeader
         });
       }
     } else
@@ -141,21 +173,24 @@ export class FormDepartmentProcessComponent implements OnInit, OnDestroy {
       this.form = this.fBuilder.group({
         id: [null],
         department: [null, [Validators.required]],
-        process: [null, [Validators.required]]
+        process: [null, [Validators.required, Validators.minLength(3)]],
+        leader: [null, [Validators.required]]
       });
       if (this.edit) {
         console.log(this.process.department.name);
         this.form.setValue({
           id: this.process.id,
           process: this.process.name,
-          department: this.process.department.id
+          department: this.process.department.id,
+          leader: this.processLeader
         });
       } else
       if (this.data.departmentId) {
         this.form.setValue({
           id: null,
           process: null,
-          department: this.data.departmentId
+          department: this.data.departmentId,
+          leader: null
         });
       }
     }

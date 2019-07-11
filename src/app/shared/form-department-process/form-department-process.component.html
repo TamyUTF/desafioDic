@@ -10,24 +10,49 @@
                               <!--FORMULÁRIO PARA EMPREENDIMENTO-->
   <div class = "form">
     <form *ngIf = "data.type == 'department'" [formGroup] = "form" (ngSubmit)="onSubmit()">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <input matInput
                 placeholder = "Nome do empreendimento"
                 floatLabel = "always"
                 formControlName = "department">
+        <mat-error *ngIf = "form.get('department').touched 
+                            && form.get('department').hasError('required')">
+          Informe o nome do empreendimento.
+        </mat-error>
+        <mat-error *ngIf = "form.get('department').errors?.minlength">
+          Mínimo 3 caracteres.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input  matInput
+                placeholder = "Líder do empreendimento"
+                floatLabel = "always"
+                formControlName = "leader">
+        <mat-error *ngIf = "form.get('leader').touched &&
+                            && form.get('leader').hasError('required')">
+          Selecione um líder para este empreendimento.
+        </mat-error>
       </mat-form-field>
       <button mat-stroked-button class = "submit-button" type="submit">CADASTRAR</button>
     </form>
 
                                 <!--FORMULÁRIO PARA PROCESSO-->
     <form  *ngIf = "data.type == 'process'" [formGroup] = "form" (ngSubmit) = "onSubmit()">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <input  matInput
                 placeholder="Nome do processo"
                 floatLabel = "always"
                 formControlName = "process">
+        <mat-error *ngIf = "form.get('process').touched 
+                            && form.get('process').hasError('required')">
+          Informe o nome do processo.
+        </mat-error>
+        <mat-error *ngIf = "form.get('process').errors?.minlength">
+          Mínimo 3 caracteres.
+        </mat-error>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
         <mat-label>Pertence ao empreendimento</mat-label>
         <mat-select formControlName = "department">
           <mat-option *ngFor = "let department of departmentService.departments$ | async"
@@ -35,6 +60,10 @@
             {{department.name}}          
           </mat-option>
         </mat-select>
+        <mat-error *ngIf = "form.get('department').touched 
+                            && form.get('department').hasError('required')">
+          Escolha um empreedimento.
+        </mat-error>
       </mat-form-field>
       <button mat-stroked-button class = "submit-button" type="submit">CADASTRAR</button>
     </form>

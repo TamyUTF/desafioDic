@@ -1,3 +1,54 @@
-<p>
-  period-form works!
-</p>
+<mat-toolbar class = header>
+  <h1 *ngIf="data.type == 'new'">Formulário para Período</h1>
+  <h1 *ngIf="data.type == 'edit'">Editar Período</h1>
+  <button mat-icon-button (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-dialog-content class = "mat-dialog">
+  <div class="form">
+    <form *ngIf = "data.type == 'new'" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class = "form-dates">
+        <mat-form-field appearance = "outline">
+          <mat-label>Início do período</mat-label>
+          <input  matInput (dateChange)="setNamePeriod()"
+                  [matDatepicker]="startPicker"
+                  placeholder="Data de início"
+                  formControlName="startDate">
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>        
+          <mat-datepicker #startPicker></mat-datepicker>
+          <mat-error *ngIf = "form.get('startDate').touched 
+                              && form.get('startDate').hasError('required')">
+            Informe a data de início.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance = "outline" >
+          <mat-label>Término do período</mat-label>
+          <input  matInput (dateChange)="setNamePeriod()"
+                  [matDatepicker]="endPicker"
+                  placeholder="Data de término"
+                  formControlName="endDate">
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>        
+          <mat-datepicker #endPicker [startAt]="form.get('endDate').value"></mat-datepicker>
+          <mat-error *ngIf = "form.get('endDate').touched 
+                              && form.get('endDate').hasError('required')">
+            Informe a data de término.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <mat-form-field appearance = "outline">
+        <mat-label>Período</mat-label>
+        <input  matInput
+                placeholder = "Período Ex: 2/2019"
+                formControlName = "name"
+                [(ngModel)]='namePeriod'>
+        <mat-error *ngIf = "form.get('name').touched 
+                            && form.get('name').hasError('required')">
+          Defina um período.
+        </mat-error>
+      </mat-form-field>
+      <button mat-stroked-button class = "submit-button" type="submit">CADASTRAR</button>
+    </form>
+  </div>
+</mat-dialog-content>

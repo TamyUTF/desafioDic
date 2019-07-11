@@ -6,6 +6,11 @@
 
 form {
     display: grid;
+    padding: 10px
+}
+
+form .mat-form-field {
+    margin-bottom: 5px;
 }
 
 form button {
@@ -23,6 +28,7 @@ form button {
     color: #292929;
     border-bottom: 3px solid rgb(61, 150, 223);
     box-shadow: 1px 1px 2px #d6d6d6; 
+    text-align: center;
 }
 
 .header h1 {

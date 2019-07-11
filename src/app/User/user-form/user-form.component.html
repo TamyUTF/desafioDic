@@ -8,40 +8,77 @@
 <mat-dialog-content *ngIf = "user" class = "mat-dialog">
   <div class = "form">
     <form [formGroup] = "form" (ngSubmit) = "onSubmit()">
-      <mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
         <input  matInput
                 placeholder = "Nome"
                 floatLabel = "always"
                 formControlName = "name">
+          <mat-error *ngIf = "form.get('name').touched 
+                               && form.get('name').hasError('required')">
+            Informe o nome do colaborador.
+          </mat-error>
+          <mat-error *ngIf = "form.get('name').errors?.minlength">
+            Mínimo 3 caracteres.
+        </mat-error>
       </mat-form-field>
-      <mat-form-field>
-        <input  matInput
-                placeholder = "Senha"
-                floatLabel = "always"
-                type="password"
-                formControlName = "password">
-      </mat-form-field>
-      <mat-form-field>
-        <input  matInput
-                placeholder = "Confirme sua senha"
-                floatLabel = "always"
-                type="password"
-                formControlName = "password2">
-      </mat-form-field>
-      <mat-form-field>
+      <div  class="section">
+        <mat-form-field appearance="outline">
+          <input  matInput
+                  placeholder = "Senha"
+                  floatLabel = "always"
+                  type="password"
+                  formControlName = "password">
+        <mat-error *ngIf = "form.get('password').touched 
+                          && form.get('password').hasError('required')">
+          Informe a senha.
+        </mat-error>
+        <mat-error *ngIf = "form.get('password').errors?.minlength">
+          Mínimo 3 caracteres.
+        </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Confirme a senha</mat-label>
+          <input  matInput
+                  floatLabel = "always"
+                  type="password"
+                  formControlName = "password2">
+        <mat-error *ngIf = "form.get('password2').touched 
+                            && form.get('password2').hasError('required')">
+          Campo obrigatório.
+        </mat-error>
+        <mat-error *ngIf = "invalidPassword">
+          As senhas não são iguais.
+        </mat-error>
+        <mat-error *ngIf = "form.get('password2').errors?.minlength">
+          Mínimo 3 caracteres.
+        </mat-error>
+        </mat-form-field>
+      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Avatar</mat-label>
         <input  matInput
                 placeholder = "Avatar"
                 floatLabel = "always"
                 formControlName = "avatar">
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
         <input  matInput
                 placeholder = "E-mail"
                 floatLabel = "always"
                 formControlName = "email">
+      <mat-error *ngIf = "form.get('email').touched 
+                          && form.get('email').hasError('required')">
+        Informe um e-mail.
+      </mat-error>
+      <mat-error *ngIf = "form.get('email').touched 
+                          && form.get('email').hasError('email')">
+        E-mail inválido.
+      </mat-error>
       </mat-form-field>
-      <section>
-        <mat-form-field>
+      <div class="section">
+        <mat-form-field appearance="outline">
           <mat-label>Empreendimento</mat-label>
           <mat-select formControlName = "department">
             <mat-option *ngFor = "let department of departmentService.departments$ | async" 
@@ -49,11 +86,15 @@
               {{department.name}}
             </mat-option>
           </mat-select>
+          <mat-error *ngIf = "form.get('department').touched 
+                              && form.get('department').hasError('required')">
+          Selecione um empreendimento.
+        </mat-error>
         </mat-form-field>         
         <mat-checkbox formControlName = "isLeaderDepartment">Lider do empreendimento</mat-checkbox>
-      </section>
-      <section>
-        <mat-form-field>
+      </div>
+      <div  class="section">
+        <mat-form-field appearance="outline">
           <mat-label>Processo</mat-label>
           <mat-select formControlName = "process">
             <mat-option *ngFor = "let process of processService.processes$ | async" 
@@ -63,7 +104,7 @@
           </mat-select>
         </mat-form-field>
         <mat-checkbox formControlName = "isLeaderProcess">Líder do processo</mat-checkbox>
-      </section>
+      </div>
       <button mat-stroked-button class = "submit-button" type="submit">CADASTRAR</button>
     </form>
   </div>

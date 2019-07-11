@@ -1,3 +1,4 @@
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MaterialModule } from './shared/material.module';
@@ -27,6 +28,7 @@ import { DialogueConfirmComponent } from './shared/dialogue-confirm/dialogue-con
 import { ProcessComponent } from './Process/process/process.component';
 import { OverviewComponent } from './Overview/overview/overview.component';
 import { DialogueInputComponent } from './shared/dialogue-input/dialogue-input.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -60,14 +62,23 @@ import { DialogueInputComponent } from './shared/dialogue-input/dialogue-input.c
     AuthService,
     AuthguardService,
     LoginService,
+    JwtHelperService,
+    DatePipe,
+    {
+      provide: MatDialogRef, useValue: {} },
+    {
+      provide: MAT_DIALOG_DATA, useValue: [] },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptorService,
       multi: true
   },
-  {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
-    JwtHelperService],
-  bootstrap: [AppComponent],
+  {
+    provide: JWT_OPTIONS, useValue: JWT_OPTIONS}
+  ],
+  bootstrap: [
+    AppComponent
+  ],
   entryComponents: [
     UserViewComponent,
     UserFormComponent,
@@ -75,7 +86,8 @@ import { DialogueInputComponent } from './shared/dialogue-input/dialogue-input.c
     DepartmentComponent,
     DialogueConfirmComponent,
     ProcessComponent,
-    DialogueInputComponent
+    DialogueInputComponent,
+    PeriodFormComponent
   ]
 })
 export class AppModule { }

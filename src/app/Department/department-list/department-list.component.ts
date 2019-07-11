@@ -36,6 +36,9 @@ export class DepartmentListComponent implements OnInit, OnDestroy {
   user: User;
   clickButton = false;
   subs: Subscription;
+  processSubs: Subscription;
+  departmentSubs: Subscription;
+  involvedSubs: Subscription;
   search: string;
   filterBy = 'all';
   searching = false;
@@ -60,11 +63,12 @@ export class DepartmentListComponent implements OnInit, OnDestroy {
 
   getElements(e) {
     if (this.filterBy === 'process') {
-      this.processFilter$ = this.processService.getAll();
+      this.processService.getAll().subscribe(processes => this.processFilter$ = processes);
     } else if (this.filterBy === 'involved') {
-      this.involvedFilter$ = this.userService.getAll();
+      this.userService.getAll().subscribe(involveds => this.involvedFilter$ = involveds);
     }
   }
+
   viewUser(userView) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.direction = 'ltr';
@@ -90,14 +94,13 @@ export class DepartmentListComponent implements OnInit, OnDestroy {
 
   searchFor(search) {
     if (this.filterBy === 'process') {
-      this.processService.getAll().subscribe(process => {
-        this.processFilter$ = process.filter(res => res.name.ToLowerCase().Contains(search.ToLowerCase()));
+      this.processSubs = this.processService.getAll().subscribe(process => {
+        this.processFilter$ = process.filter(res => res.name.toLowerCase().includes(search.toLowerCase()));
       });
     } else if (this.filterBy === 'involved') {
-      this.userService.getAll().subscribe(
+      this.involvedSubs = this.userService.getAll().subscribe(
         involved => {
-          this.involvedFilter$ = involved.filter(res => res.name == search);
-          console.log(this.involvedFilter$);
+          this.involvedFilter$ = involved.filter(res => res.name.toLowerCase().includes(search.toLowerCase()));
         }
       );
     }
@@ -191,7 +194,7 @@ export class DepartmentListComponent implements OnInit, OnDestroy {
       msg: 'Deseja excluir este processo?'
     };
     const dialogRef = this.modal.open(DialogueConfirmComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => {
+    this.subs = dialogRef.afterClosed().subscribe(result => {
       if (result === 'true') {
         this.processService.delete(id).subscribe(
           res => {
@@ -210,6 +213,12 @@ export class DepartmentListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.subs) {
       this.subs.unsubscribe();
+    }
+    if (this.processSubs) {
+      this.processSubs.unsubscribe();
+    }
+    if (this.involvedSubs) {
+      this.involvedSubs.unsubscribe();
     }
   }
 

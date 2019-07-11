@@ -3,17 +3,20 @@
     <h2>Aviso</h2>
   </mat-toolbar>
   <p>{{msg}}</p>
-  <mat-form-field appearence = "outline">
+  <mat-form-field appearance = "outline">
+    <mat-label>Data de conclusão</mat-label>
     <input  matInput 
             [matDatepicker]="picker" 
             placeholder="Data de conclusão"
-            [formControl]="date">
+            [formControl]="date"
+            [max]="maxDate"
+            [min]="startDate">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker [startAt]="startDate"></mat-datepicker>
+    <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   
   <div class = "modal-buttons">
-    <button class="cancel" mat-raised-button (click)="cancel()">NÃO</button>
-    <button class="confirm" mat-raised-button (click)="confirm()">SIM</button>
+    <button class="cancel" mat-raised-button (click)="cancel()">CANCELAR</button>
+    <button class="confirm" mat-raised-button (click)="confirm()">CONFIRMAR</button>
   </div>
 </mat-dialog-content>  

@@ -4,13 +4,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { ProcessService } from 'src/app/Process/Shared/process.service';
+import { DepartmentService } from 'src/app/Department/Shared/department.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   constructor(private http: HttpClient,
-              private securityService: SecurityService) { }
+              private securityService: SecurityService,
+              private departmentService: DepartmentService,
+              private processService: ProcessService) { }
   readonly apiUrl = `${environment.API}Users`;
   users$: Observable<any[]>;
 
@@ -46,36 +50,27 @@ export class UserService {
     return this.securityService.decryptoId(id);
   }
 
-  toApi(user, isLeaderDepartment?, isLeaderProcess?, department?, process?, isAdmin?) {
-    const userApi  = {
-      name: user.name,
-      avatar: user.avatar,
-      email: user.email,
-      department: user.department,
-      process: user.process,
-      password: user.password,
-      isLeaderDepartment: 0,
-      isLeaderProcess: 0,
-      isAdmin: user.isAdmin,
-      removed: 0
-    };
-    if (user.isLeaderDepartment || isLeaderDepartment) {
-      userApi.isLeaderDepartment = 1;
-    }
-    if (user.isLeaderProcess || isLeaderProcess) {
-      userApi.isLeaderProcess = 1;
-    }
-    if (department) {
-      userApi.department = department;
-    }
-    if (isAdmin) {
-      userApi.isAdmin = isAdmin;
-    }
-
-    if (process || process === null) {
-      userApi.process = process;
-    }
-    return userApi;
+  verifyDepartmentLeader(idDepartment) {
+    this.getAll().subscribe(user => {
+      const userRes = user.find(res => ((res.department.id === idDepartment) && (res.isLeaderDepartment === 1)));
+      if (userRes) {
+        return true;
+      } else {
+        return false;
+      }
+    });
   }
+
+  verifyProcessLeader(idProcess) {
+    this.getAll().subscribe(user => {
+      const userRes = user.find(res => ((res.department.id === idProcess) && (res.isLeaderProcess === 1)));
+      if (userRes) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
+
 
 }

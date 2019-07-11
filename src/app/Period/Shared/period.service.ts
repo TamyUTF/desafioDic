@@ -20,4 +20,16 @@ export class PeriodService {
   getAll() {
     return this.http.get<any[]>(this.apiUrl);
   }
+
+  insert(period) {
+    return this.http.post<any>(this.apiUrl, period);
+  }
+
+  delete(id: string) {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
+
+  update(period) {
+    return this.http.put<any>(this.apiUrl, period);
+  }
 }

@@ -8,12 +8,18 @@
 <mat-dialog-content class = "mat-dialog">
   <div class = form>
     <form [formGroup] = "form" (ngSubmit) = "onSubmit()">
-      <mat-form-field>
-        <mat-label>Período (trimestre)</mat-label>
-        <input  matInput
-                floatLabel = "always"
-                formControlName = "idPeriod"
-                placeholder = "ex: 2/2019">
+      <mat-form-field appearance="outline">
+        <mat-label>Período</mat-label>
+        <mat-select formControlName = 'idPeriod'>
+          <mat-option  *ngFor = 'let period of periodService.periods$ | async'
+                        [value]='period.id'>
+            {{period.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf = "form.get('idPeriod').touched 
+                            && form.get('idPeriod').hasError('required')">
+          Selecione o período
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
@@ -23,6 +29,13 @@
                   formControlName = "description"
                   type = "text">
         </textarea>
+        <mat-error *ngIf = "form.get('description').touched 
+                            && form.get('description').hasError('required')">
+          Campo obrigatório.
+        </mat-error>
+        <mat-error *ngIf = "form.get('description').errors?.minlength">
+          Mínimo 3 caracteres.
+        </mat-error>
       </mat-form-field>
       <button mat-stroked-button type="submit">CADASTRAR</button>
     </form>

@@ -72,15 +72,36 @@
         Editar
       </ng-template>
       <div class = form>
-        <form [formGroup] = "form" (ngSubmit) = "onSubmit()">        
+        <form [formGroup] = "form" (ngSubmit) = "onSubmit()">
+            <mat-form-field appearance="outline">
+              <mat-label>Período</mat-label>
+              <mat-select formControlName = 'idPeriod'>
+                <mat-option  *ngFor = 'let period of periodService.periods$ | async'
+                              [value]='period.id'>
+                  {{period.name}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf = "form.get('idPeriod').touched 
+                                  && form.get('idPeriod').hasError('required')">
+                Selecione o período
+              </mat-error>
+            </mat-form-field>     
           <mat-form-field appearance="outline">
-            <mat-label>Descrição</mat-label>
+            <mat-label>Desafio</mat-label>
             <textarea  matInput 
+                      placeholder="Descrição do desafio"
                       formControlName = "description"
                       floatLabel="always"
                       type = "text">
               {{dic.description}}
             </textarea>
+            <mat-error *ngIf = "form.get('description').touched 
+                                && form.get('description').hasError('required')">
+              Campo obrigatório.
+            </mat-error>
+            <mat-error *ngIf = "form.get('description').errors?.minlength">
+              Mínimo 3 caracteres.
+            </mat-error>
           </mat-form-field>
           <button mat-stroked-button type="submit">EDITAR</button>
         </form>

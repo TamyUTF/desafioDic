@@ -11,6 +11,7 @@ import { Dic } from '../shared/dic.model';
 import { DicService } from '../shared/dic.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { PeriodService } from 'src/app/Period/Shared/period.service';
 
 @Component({
   selector: 'app-dics',
@@ -26,8 +27,10 @@ export class DicsComponent implements OnInit, OnDestroy {
                 private fBuilder: FormBuilder,
                 private snackbar: Util,
                 private location: Location,
-                private userService: UserService) {
+                private userService: UserService,
+                private periodService: PeriodService) {
     this.getDic();
+    this.verifyServices();
     this.userId = this.userService.getUserId(localStorage.getItem('currentUser'));
     this.createForm();
   }
@@ -36,22 +39,34 @@ export class DicsComponent implements OnInit, OnDestroy {
   form: FormGroup;
   subs: Subscription;
 
+
+  verifyServices() {
+    if (!this.periodService.periods$) {
+      this.periodService.list();
+    }
+  }
   getDic() {
     this.dic = this.data.dic;
   }
 
   createForm() {
     this.form = this.fBuilder.group({
-      id: [this.dic.id],
-      idUser: [this.dic.user.id],
+      id: [null],
+      idUser: [null],
       idStatus: [this.dic.status.id],
-      idPeriod: [this.dic.period.id],
-      description: [null, [Validators.required]]
+      idPeriod: [null, [Validators.required]],
+      description: [null, [Validators.required, Validators.minLength(3)]]
     });
   }
 
   updateForm() {
-    this.form.patchValue(this.dic);
+    this.form.setValue({
+      id: this.dic.id,
+      idUser: this.dic.user.id,
+      idStatus: this.dic.status.id,
+      idPeriod: this.dic.period.id,
+      description: this.dic.description
+    });
   }
   ngOnDestroy() {
     this.location.go('/dics');
