@@ -24,16 +24,20 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field>
-        <input  matInput
-                placeholder = "Líder do empreendimento"
-                floatLabel = "always"
-                formControlName = "leader">
-        <mat-error *ngIf = "form.get('leader').touched &&
+      <!--mat-form-field appearance="outline" *ngIf="departmentLeader">
+        <mat-label>Líder do Empreendimento</mat-label>
+        <mat-select formControlName = "leader">
+          <mat-option *ngFor = "let leaderDepartment of userService.users$ | async"
+                      [value]="leaderDepartment?.id">
+            {{leaderDepartment?.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf = "form.get('leader').touched
                             && form.get('leader').hasError('required')">
           Selecione um líder para este empreendimento.
         </mat-error>
-      </mat-form-field>
+      </mat-form-field-->
+
       <button mat-stroked-button class = "submit-button" type="submit">CADASTRAR</button>
     </form>
 
@@ -52,6 +56,20 @@
           Mínimo 3 caracteres.
         </mat-error>
       </mat-form-field>
+      <!--mat-form-field appearance="outline">
+        <mat-label>Líder do Empreendimento</mat-label>
+        <mat-select formControlName = "leader">
+          <mat-option *ngFor = "let leaderProcess of userService.users$ | async"
+                      [value]="leaderProcess?.id">
+            {{leaderProcess?.name}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf = "form.get('leader').touched
+                            && form.get('leader').hasError('required')">
+          Selecione um líder para este processo.
+        </mat-error>
+      </mat-form-field-->
+
       <mat-form-field appearance="outline">
         <mat-label>Pertence ao empreendimento</mat-label>
         <mat-select formControlName = "department">

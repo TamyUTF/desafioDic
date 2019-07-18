@@ -30,7 +30,18 @@ export class UserViewComponent implements OnInit, OnDestroy {
     this.getUsers();
     this.createForm();
     this.getDicsByUser();
+    this.setGoogleChart();
   }
+  googleChart: {
+    title: string,
+    data: any,
+    type: string,
+    columnNames: any,
+    options: any,
+    width: number,
+    height: number,
+    chart: boolean;
+  };
   user: any;
   currentUserId;
   dics$: any;
@@ -45,6 +56,37 @@ export class UserViewComponent implements OnInit, OnDestroy {
 
   getDicsByUser() {
     this.subs = this.dicService.filterByUser(this.user.name).subscribe(dic => {this.dics$ = dic; });
+  }
+
+  setGoogleChart() {
+    let todo;
+    let doing;
+    let done;
+    this.dicService.filterByUser(this.user.name).subscribe(dics => {
+      console.log(this.user.name);
+      console.log(dics);
+      todo = dics.filter(d => d.status.name === 'Definindo').length;
+      doing = dics.filter(d => d.status.name === 'Definido').length;
+      done = dics.filter(d => d.status.name === 'Concluído').length;
+
+      this.googleChart = {
+        title: 'Visão geral do colaborador',
+        type: 'PieChart',
+        data: [
+          ['Definindos', todo],
+          ['Em andamento', doing],
+          ['Concluídos', done]
+        ],
+        columnNames: ['Status', 'Quantidade de Dics'],
+        options: {
+          colors: ['#eb3013', '#f78d14', '#11bd14'], is3D: true
+        },
+        width: 350,
+        height: 350,
+        chart: true
+      };
+    });
+
   }
 
   verifyServices() {

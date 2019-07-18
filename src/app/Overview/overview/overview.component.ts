@@ -59,7 +59,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
       this.done = dics.filter(d => d.status.name === 'Concluído').length;
 
       this.googleChart = {
-        title: department,
+        title: `empreendimento ${department}`,
         type: 'PieChart',
         data: [
           ['Definindos', this.todo],
@@ -85,7 +85,33 @@ export class OverviewComponent implements OnInit, OnDestroy {
       this.done = dics.filter(d => d.status.name === 'Concluído').length;
 
       this.googleChart = {
-        title: process,
+        title: `processo ${process}`,
+        type: 'PieChart',
+        data: [
+          ['Definindos', this.todo],
+          ['Em andamento', this.doing],
+          ['Concluídos', this.done]
+        ],
+        columnNames: ['Status', 'Quantidade de Dics'],
+        options: {
+          colors: ['#eb3013', '#f78d14', '#11bd14'], is3D: true
+        },
+        width: 500,
+        height: 400,
+        chart: true
+      };
+    });
+  }
+
+  filterByPeriod(period) {
+    this.dicService.filterByPeriod(period).subscribe(dics => {
+      this.dics$ = dics;
+      this.todo = dics.filter(d => d.status.name === 'Definindo').length;
+      this.doing = dics.filter(d => d.status.name === 'Definido').length;
+      this.done = dics.filter(d => d.status.name === 'Concluído').length;
+
+      this.googleChart = {
+        title: `período ${period}`,
         type: 'PieChart',
         data: [
           ['Definindos', this.todo],

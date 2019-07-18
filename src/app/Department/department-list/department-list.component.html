@@ -77,7 +77,8 @@
         </div>
     </ng-container>
   </ng-template>
-  <ng-template #noFilter>
+
+  <ng-template #noFilter >
     <mat-accordion [multi]='true'>
       <mat-expansion-panel *ngFor = "let department of departmentService.departments$ | async" 
                             class = "department-panel"
@@ -99,10 +100,10 @@
             </button>
           </mat-menu>
           <mat-panel-title>{{department.name}}</mat-panel-title>
-          <mat-panel-description>
-            <img src="../../../assets/images/userIcon.png">
-            Líder
-          </mat-panel-description>
+            <mat-panel-description>
+              <img src="../../../assets/images/userIcon.png">
+              Líder
+            </mat-panel-description>
         </mat-expansion-panel-header>
         <mat-list>
           <div class="sub-header">
@@ -138,7 +139,6 @@
         </mat-list>
       </mat-expansion-panel>
     </mat-accordion>
-
   </ng-template>
   
 

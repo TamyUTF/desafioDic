@@ -49,5 +49,8 @@ export class DicService {
   filterByLate(late: number) {
     return this.http.get<any>(`${this.apiUrl}?late=${late}`);
   }
+  filterByPeriod(period: string) {
+    return this.http.get<any>(`${this.apiUrl}?period=${period}`);
+  }
 
 }

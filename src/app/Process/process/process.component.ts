@@ -64,7 +64,7 @@ export class ProcessComponent implements OnInit, OnDestroy {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.direction = 'ltr';
     dialogConfig.width = '700px';
-    dialogConfig.height = '300px';
+    dialogConfig.minHeight = '300px';
     dialogConfig.data = {
       user : userView
     };

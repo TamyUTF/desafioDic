@@ -5,27 +5,18 @@
   </button>
 </mat-toolbar>
 
-<mat-dialog-content class = "mat-dialog">
+<mat-dialog-content class = "mat-dialog" *ngIf='configuration'>
   <div class = form>
-    <form [formGroup] = "form" (ngSubmit) = "onSubmit()">
+    <h3>Desafio Individual do Colaborador: {{configuration.period.name}}</h3>
+    <h4>Período: {{configuration.period.startDate | date: 'dd/MM/yyyy'}} - 
+                  {{configuration.period.endDate | date: 'dd/MM/yyyy'}}
+    </h4>
+    <form [formGroup] = "form" (ngSubmit)="onSubmit()">
       <mat-form-field appearance="outline">
-        <mat-label>Período</mat-label>
-        <mat-select formControlName = 'idPeriod'>
-          <mat-option  *ngFor = 'let period of periodService.periods$ | async'
-                        [value]='period.id'>
-            {{period.name}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf = "form.get('idPeriod').touched 
-                            && form.get('idPeriod').hasError('required')">
-          Selecione o período
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-          <mat-label>Descrição</mat-label>
+          <mat-label>Desafio</mat-label>
         <textarea matInput 
                   floatLabel="always"
+                  placeholder="Informe seu desafio neste campo"
                   formControlName = "description"
                   type = "text">
         </textarea>

@@ -1,15 +1,16 @@
-import { UserEventService } from './../../User/Shared/user-event.service';
 import { Location } from '@angular/common';
-import { Util } from './../../shared/util';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { ConfigurationService } from './../../Configurations/Shared/configuration.service';
+import { UserEventService } from './../../User/Shared/user-event.service';
 import { UserService } from './../../User/Shared/user.service';
 import { DicService } from './../shared/dic.service';
 import { Subscription } from 'rxjs';
 import { PeriodService } from 'src/app/Period/Shared/period.service';
+import { Util } from './../../shared/util';
 
 @Component({
   selector: 'app-dic-form',
@@ -24,16 +25,22 @@ export class DicFormComponent implements OnInit, OnDestroy {
                 private fBuilder: FormBuilder,
                 private dicService: DicService,
                 private userService: UserService,
-                private userEventService: UserEventService,
                 private periodService: PeriodService,
                 private snackbar: Util,
-                private location: Location) {
+                private location: Location,
+                private configurationService: ConfigurationService) {
+    this.getConfiguration();
     this.verifyServices();
     this.createForm();
   }
   subs: Subscription;
   form: FormGroup;
   userId: any;
+  configuration: any;
+
+  getConfiguration() {
+    this.configurationService.get(2).toPromise().then(res => {this.configuration = res;});
+  }
 
   verifyServices() {
     if (!this.periodService.periods$) {
@@ -43,16 +50,21 @@ export class DicFormComponent implements OnInit, OnDestroy {
 
   createForm() {
     this.form = this.fBuilder.group({
-      idUser: [this.userService.getUserId(localStorage.getItem('currentUser'))],
-      idStatus: [2],
-      idPeriod: [null, [Validators.required]],
+      idUser: [null],
+      idStatus: [null],
+      idPeriod: [null],
       description: [null, [Validators.required, Validators.minLength(3)]]
     });
   }
 
   onSubmit() {
     if (this.form.valid) {
-      this.dicService.insert(this.form.value)
+      this.dicService.insert({
+        idUser: this.userService.getUserId(localStorage.getItem('currentUser')),
+        idStatus: 2,
+        idPeriod: this.configuration.period.id,
+        description: this.form.get('description').value
+      })
       .subscribe(res => {
         this.snackbar.openSnackBar('Dic foi criado com sucesso!', 'Ok!');
         this.router.navigate(['dics']);

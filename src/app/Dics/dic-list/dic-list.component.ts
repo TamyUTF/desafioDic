@@ -1,3 +1,4 @@
+import { ConfigurationService } from './../../Configurations/Shared/configuration.service';
 import { UserEventService } from './../../User/Shared/user-event.service';
 import { AuthService } from './../../core/auth.service';
 import { User } from './../../User/Shared/user.model';
@@ -29,8 +30,11 @@ export class DicListComponent implements OnInit, OnDestroy {
               private userService: UserService,
               private authService: AuthService,
               private userEventService: UserEventService,
+              private configurationService: ConfigurationService,
               private snackbar: Util) {
+    this.setConfiguration();
     this.verifyUser();
+
   }
   filters = ['Empreendedorismo', 'Colaborador', 'Periodo'];
   teste = false;
@@ -43,6 +47,15 @@ export class DicListComponent implements OnInit, OnDestroy {
   subs: Subscription;
   dialogSubs: Subscription;
   dicDropped: any;
+  configuration: any;
+
+  setConfiguration() {
+    if (localStorage.getItem('configuration') !== null) {
+      this.configurationService.setConfiguration();
+    } else {
+      this.configuration = localStorage.getItem('configuration');
+    }
+  }
 
   verifyUser() {
     if (this.authService.isAuthenticated) {
@@ -53,7 +66,9 @@ export class DicListComponent implements OnInit, OnDestroy {
   getDics() {
     this.dicEventService.getAll();
     this.subs = this.dicEventService.dicListEvent
-                .subscribe(dics => this.initializeDics(dics));
+                .subscribe(dics => {
+                  const dicsFiltered = dics.filter(dics.period.id === this.configuration.period.id);
+                  this.initializeDics(dicsFiltered); });
   }
 
   initializeDics(dics) {

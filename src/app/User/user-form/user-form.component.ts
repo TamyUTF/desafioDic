@@ -127,7 +127,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       isLeaderProcess
     };
   }
-  
+
   ngOnDestroy() {
     this.subs.unsubscribe();
     this.location.forward();

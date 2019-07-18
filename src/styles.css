@@ -3,6 +3,7 @@
 body {
     margin: 0;
     background-color: #eaeaea;
+    font-family: Roboto,"Helvetica Neue",sans-serif;
 }
 
 .mat-dialog-container {

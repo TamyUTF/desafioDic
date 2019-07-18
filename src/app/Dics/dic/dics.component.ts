@@ -1,3 +1,4 @@
+import { ConfigurationService } from './../../Configurations/Shared/configuration.service';
 import { SecurityService } from './../../core/security.service';
 import { User } from 'src/app/User/Shared/user.model';
 import { Subscription } from 'rxjs';
@@ -38,7 +39,6 @@ export class DicsComponent implements OnInit, OnDestroy {
   userId;
   form: FormGroup;
   subs: Subscription;
-
 
   verifyServices() {
     if (!this.periodService.periods$) {

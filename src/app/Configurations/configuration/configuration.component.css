@@ -1,0 +1,90 @@
+.header {
+    margin:0;
+    background-color: #e2e2e2;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    color: #292929;
+    border-bottom: 3px solid rgb(61, 150, 223);
+    box-shadow: 1px 1px 2px #d6d6d6; 
+    text-align: center;
+}
+
+.header h1 {
+    width: 100%;
+    font-weight: 700;
+}
+
+.mat-dialog {
+    padding: 0px;
+    text-align: center;
+}
+
+.date  {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 10px 0px;
+}
+
+.date span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: bold;
+    color: #383838;
+}
+
+.date p {
+    font-weight: normal;
+    color: #000;
+}
+
+.form {
+    padding: 10px;
+}
+
+form .period,.input-date{
+    width: 100%;
+}
+
+.input-date{
+    display: flex;
+    flex-direction: row;
+}
+
+.input-date mat-form-field {
+    margin: auto;
+}
+
+.div-buttons {
+    justify-content: space-around;
+    display: flex;
+}
+
+.div-buttons button {
+    width: 190px;
+}
+
+.cancel {
+    border: 1px solid #c0c0c098;
+    color: #707070;
+    font-weight: bold;
+}
+
+.confirm {
+    color: #00a800;
+    border: 1px solid #00a800;
+    font-weight: bold;
+}
+
+.add mat-icon {
+    color:#00a800; 
+    font-weight: bold;
+    font-size: 18pt;
+}
+
+.blue-button {
+    color: rgb(61, 150, 223);
+    border: 1px solid rgb(61, 150, 223);
+    font-weight: bold;
+}

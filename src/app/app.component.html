@@ -4,7 +4,7 @@
       <mat-icon>menu</mat-icon>
     </button>
     <mat-menu class = 'menu' #menu="matMenu" >
-      <button mat-menu-item *ngIf="user&&user.isAdmin" (click)="registerPeriod()">Registrar período</button>
+      <button mat-menu-item *ngIf="user&&user.isAdmin" (click)="registerPeriod()">Definir Período</button>
       <button mat-menu-item *ngIf="user&&user.isAdmin" (click)="registerUser()">Registrar usuário</button>
       <button mat-menu-item [routerLink]="['overview']">Overview</button>
       <button mat-menu-item [routerLink]="['departments']">Estrutura Sistêmica</button>

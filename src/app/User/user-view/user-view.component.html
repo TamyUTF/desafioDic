@@ -142,6 +142,24 @@
         <mat-icon>description</mat-icon>
         Relatório
       </ng-template>
+      <div class = 'google-chart' *ngIf="googleChart">
+        <h2>{{googleChart.title}}</h2>
+        <google-chart #chart
+          [type]="googleChart.type"
+          [data]="googleChart.data"
+          [columnNames]="googleChart.columnNames"
+          [options]="googleChart.options"
+          [width]="googleChart.width"
+          [height]="googleChart.height">
+        </google-chart>
+      </div>
+
+
+
+
+
+
+
     </mat-tab>
 
   </mat-tab-group >

@@ -19,6 +19,14 @@ export class DicEventService {
     });
   }
 
+  getByPeriod(period: string) {
+    this.dicService.filterByPeriod(period)
+    .subscribe(dics => {
+      this.dicList = dics;
+      this.dicListEvent.emit(this.dicList);
+    });
+  }
+
   getByDepartment(department: string) {
     this.dicService.filterByDepartment(department)
     .subscribe(dics => {

@@ -1,0 +1,80 @@
+<mat-toolbar class = header>
+  <h1>Período</h1>
+  <button mat-icon-button (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-dialog-content class = "mat-dialog">
+  <div class = "view" *ngIf="!edit">
+    <ng-container #configurationtemp *ngIf="configuration !== undefined; else configurationNotFound">
+        <h3>Período atual:&nbsp;{{configuration.period.name}}</h3>
+        <div class ="date">
+          <span>Início:&nbsp;<p>{{configuration.period.startDate | date: "yyyy-MM-dd"}}</p></span>
+          <span>Término:&nbsp;<p>{{configuration.period.endDate | date: "yyyy-MM-dd"}}</p></span>
+        </div>
+        <button mat-stroked-button class="submit-button" 
+                type="button" 
+                class = 'blue-button'
+                (click)="edit = true" 
+                *ngIf="!edit">ALTERAR PERÍODO
+        </button>  
+    </ng-container>
+
+    <ng-template #configurationNotFound>
+        <h3>Não foi definido nenhum período.</h3>
+        <button mat-stroked-button class="submit-button" 
+                type="button" 
+                class = 'blue-button'
+                (click)="edit = true" 
+                *ngIf="!edit">DEFINIR UM PERÍODO</button>
+      </ng-template>
+
+  </div>
+
+  <div class = "edit" *ngIf="edit">
+    <div class="form">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="period">
+          <mat-form-field appearance = "outline">
+            <mat-label>Período</mat-label>
+            <mat-select  [(value)]="periodView" formControlName = "periodForm" >
+              <mat-option *ngFor = "let period of periodService.periods$ | async" [value]="period" >
+                {{period.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button mat-icon-button 
+                  class = "add"
+                  type="button"
+                  (click)="registerPeriod()">
+            <mat-icon inline=true>add</mat-icon>
+          </button>
+        </div>
+        <div class="input-date" *ngIf="periodView">
+          <mat-form-field appearance="outline" >
+            <mat-label>Início</mat-label>
+            <input matInput disabled floatlabel="always">
+            {{periodView.startDate | date: 'dd/MM/yyyy'}}
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Término</mat-label>
+            <input matInput disabled floatlabel="always">
+            {{periodView.endDate | date: 'dd/MM/yyyy'}}
+          </mat-form-field>
+        </div>
+        <div class = 'div-buttons'>
+          <button mat-stroked-button type="button" 
+                  class = 'cancel'
+                  (click)='edit = false' >CANCELAR</button>
+          <button mat-stroked-button 
+                  class = 'confirm'
+                  type="submit" >CONFIRMAR</button>
+        </div>
+      </form>
+
+    </div>
+
+  </div>
+</mat-dialog-content>

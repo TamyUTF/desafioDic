@@ -44,6 +44,7 @@ export class DepartmentListComponent implements OnInit, OnDestroy {
   searching = false;
   processFilter$: any;
   involvedFilter$: any;
+  departmentLeaders$: any;
 
   verifyUser() {
     if (this.authService.isAuthenticated) {
@@ -58,6 +59,9 @@ export class DepartmentListComponent implements OnInit, OnDestroy {
     }
     if (!this.processService.processes$) {
       this.processService.list();
+    }
+    if (!this.userService.users$) {
+      this.userService.list();
     }
   }
 

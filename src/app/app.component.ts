@@ -8,6 +8,7 @@ import { UserEventService } from './User/Shared/user-event.service';
 import { UserViewComponent } from './User/user-view/user-view.component';
 import { UserFormComponent } from './User/user-form/user-form.component';
 import { PeriodFormComponent } from './Period/period-form/period-form.component';
+import { ConfigurationComponent } from './Configurations/configuration/configuration.component';
 
 @Component({
   selector: 'app-root',
@@ -58,7 +59,7 @@ export class AppComponent {
     dialogConfig.data = {
       type: 'new'
     };
-    this.modal.open(PeriodFormComponent, dialogConfig);
+    this.modal.open(ConfigurationComponent, dialogConfig);
   }
 
   registerUser() {
