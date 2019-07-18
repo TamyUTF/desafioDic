@@ -1,27 +1,10 @@
 # DesafioDic
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.1.
+Projetinho para encerrar o treinamento de estágio. Nele você irá encontrar desde a API em ASP.NET C#, o backup do banco de dados utilizado e a parte do front feito em Angular 2.
 
-## Development server
+# Como rodar?
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- Comando para instalar todas as depedências: npm-install;
+- Para executar o servidor api, na pasta 'Api_Server/DICs_API' irá ter um executável.sln, inicialize ele (foi utilizado o Visual Studio 2019) e execute; 
+- Para inicializar a parte do front-end, na pasta 'DesafioDic', dê o comando: ng server. Será executado no 'http://localhost:4200/';
+- O projeto ainda não está finalizado.
